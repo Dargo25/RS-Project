@@ -10,5 +10,6 @@ package MainClasses;
  * @author Егор
  */
 public class Subject {
+    String name;
     
 }
