@@ -17,7 +17,6 @@ public class EventTime {
     private Time singleEventTime;
     private Time startTime;
     private Time endTime;
-    private EventType type;
 
     public Date getDate() {
         return date;
@@ -49,13 +48,5 @@ public class EventTime {
     
     public void setEndTime(Time endTime) {
         this.endTime = endTime;
-    }
-
-    public EventType getType() {
-        return type;
-    }
-
-    public void setType(EventType type) {
-        this.type = type;
     }
 }
