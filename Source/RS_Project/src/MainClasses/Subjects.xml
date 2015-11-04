@@ -1,20 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <Subjects>
 	<Subject>
-		<subjectName>Math</subjectName>
-		<lecturerName>Viktor Vasil'evich</lecturerName>
-		<audience>305</audience>
-		<housing></housing>
+		<subjectName>Математика</subjectName>
+		<lecturerName>Плетнев</lecturerName>
+		<audience>528</audience>
+		<housing>1</housing>
 		<numberInTable>1</numberInTable>
-		<DayOfWeek>Monday</DayOfWeek>
-		<eventList>
-			<Event>
-				<type>SINGLE</type>
-				<header>Do homework</header>
-				<content>There are three tasks</content>
-				<timeList>null</timeList>
-
-			</Event>
-		</eventList>
+		<dayOfWeek>Monday</dayOfWeek>
 	</Subject>
 </Subjects>

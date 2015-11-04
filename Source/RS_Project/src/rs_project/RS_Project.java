@@ -12,6 +12,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import MainClasses.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -21,13 +24,15 @@ public class RS_Project extends Application {
     
     @Override
     public void start(Stage primaryStage) {
+        List<Subject> subjectList = new ArrayList<>();
         Button btn = new Button();
         btn.setText("Say 'Wake up, Artem!'");
         btn.setOnAction(new EventHandler<ActionEvent>() {
             
             @Override
             public void handle(ActionEvent event) {
-                System.out.println("Wake up, Artem!");
+                ParseXML.scanXml(subjectList);
+                System.out.println(subjectList.get(0).getSubjectName());
             }
         });
         
