@@ -8,4 +8,12 @@
 		<numberInTable>1</numberInTable>
 		<dayOfWeek>Monday</dayOfWeek>
 	</Subject>
+	<Subject>
+		<subjectName>Физика</subjectName>
+		<lecturerName>Глущенко</lecturerName>
+		<audience>311</audience>
+		<housing>2</housing>
+		<numberInTable>2</numberInTable>
+		<dayOfWeek>Monday</dayOfWeek>
+	</Subject>
 </Subjects>

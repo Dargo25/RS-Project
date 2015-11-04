@@ -15,6 +15,7 @@ import javafx.stage.Stage;
 import MainClasses.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.StageStyle;
@@ -25,7 +26,7 @@ import javafx.stage.StageStyle;
  */
 public class RS_Project extends Application {
     //Это поле коллекция пар. Юзай его.
-    private List<Subject> subjectList = new ArrayList<>();
+    private static List<Subject> subjectList = new ArrayList<>();
     
     @Override
     public void start(Stage primaryStage) {
@@ -39,8 +40,49 @@ public class RS_Project extends Application {
              */
             @Override
             public void handle(ActionEvent event) {
-                ParseXML.scanXml(subjectList);
-                System.out.println(subjectList.get(0).getSubjectName());
+                //--Тут выводит все предметы в консоль
+                String [] info = GetInfo();
+                for (int i=0;i<info.length;i++){
+                    System.out.println(info[i]);
+                }
+                Scanner scan = new Scanner(System.in);
+                //Поиск предмета по номеру + проверка на корректность
+                System.out.println("Введите номер предмета");
+                int subjNumber = scan.nextInt();
+                if (GetSubjetForEvent(subjNumber)!=null){
+                    System.out.println(GetSubjetForEvent(subjNumber));
+                }
+                else {
+                    System.out.println("Неверный номер предмета");
+                }
+                
+                  //Создание события и заполнение полей
+                    SubjectEvent myEvent = new SubjectEvent();
+                    
+                    //Заполнение типа
+                    System.out.println("Введите тип");
+                    String type = scan.next();
+                    if ("single".equals(type)){
+                    myEvent.setType(EventType.SINGLE);
+                    }
+                    else{
+                     if ("pereodic".equals(type))  {
+                       myEvent.setType(EventType.SINGLE);  
+                     }
+                     else {
+                         System.out.println("Неверный формат");
+                     }
+                     }
+                    
+                    //Заполнение заголовка
+                    System.out.println("Введите заголовок");
+                    myEvent.setHeader(scan.next());
+                    //Заполнение текста
+                    System.out.println("Введите текст");
+                    myEvent.setContent(scan.next());
+                     
+                        
+                    
             }
         });
         
@@ -58,6 +100,11 @@ public class RS_Project extends Application {
      */
     public static void main(String[] args) {
         launch(args);
+        //Вывод в консоль
+        GetInfo();
+        
+        
+        
         /* Писать начиная с этой строки. Твоя задача - сделать вывод в консоль рассписания. Выглядеть должно так:
          * 1. Математика
          *     Плетнев; 528/1
@@ -93,5 +140,23 @@ public class RS_Project extends Application {
          * 
          */
     }
+    public static  String [] GetInfo (){
+        ParseXML.scanXml(subjectList);
+        String [] info = new String[subjectList.size()];
+        for (int i=0;i<subjectList.size();i++) {
+            info[i] = String.format(subjectList.get(i).getSubjectName()+"\n\t"+subjectList.get(i).getNumberInTable()+"."+subjectList.get(i).getLecturerName() + "; " + subjectList.get(i).getAudience() + "/" + subjectList.get(i).getHousing());
+            }
+        return info;
+    }
     
-}
+    public static String GetSubjetForEvent (int i){
+    String subjectName = null;
+            for (Subject subjectList1 : subjectList) {
+                if (subjectList1.getNumberInTable()==i){
+                    subjectName = subjectList1.getSubjectName();
+                }
+            }
+            return subjectName;
+            }
+    }
+    
