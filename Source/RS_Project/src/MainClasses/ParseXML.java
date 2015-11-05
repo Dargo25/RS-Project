@@ -18,29 +18,10 @@ import org.w3c.dom.NodeList;
  * @author Samosad
  */
 public class ParseXML {
-//    Sorry Artem, but this is bullshit =)    
-//    static NodeList list; 
-//    public static void Inicialize () throws ParserConfigurationException, SAXException, IOException{ 
-//    File xmlFile = new File("Subjects.xml");
-//    DocumentBuilderFactory dbf =  DocumentBuilderFactory.newInstance();
-//    DocumentBuilder db = dbf.newDocumentBuilder();
-//    Document doc = db.parse(xmlFile);
-//    list = doc.getElementsByTagName("Subjects");
-//    }
-//    
-//    public static void GetSubjectInformation (){
-//        
-//        for (int i = 0;i<list.getLength();i++) {
-//            
-//            Node node = list.item(i);
-//        }
-//        }
-//          
-
     public static void scanXml(List<Subject> subjectList) {
         try {
-//            File file = new File("C:/My files/Учеба/GitHub/R&S Project/Source/RS_Project/src/MainClasses/Subjects.xml");
             File file = new File("src/MainClasses/Subjects.xml");
+            
             DocumentBuilder dBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
             Document doc = dBuilder.parse(file);
 
