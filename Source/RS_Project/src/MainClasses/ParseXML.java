@@ -17,7 +17,7 @@ import org.w3c.dom.NodeList;
  *
  * @author Samosad
  */
-public class ParseXML {
+public final class ParseXML {
     public static void scanXml(List<Subject> subjectList) {
         try {
             File file = new File("src/MainClasses/Subjects.xml");
