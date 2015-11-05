@@ -29,7 +29,6 @@ public class RS_Project extends Application {
     
     @Override
     public void start(Stage primaryStage) {
-        primaryStage.initStyle(StageStyle.TRANSPARENT);
         Button btn = new Button();
         btn.setText("Say 'Wake up, Artem!'");
         btn.setOnAction(new EventHandler<ActionEvent>() {
@@ -48,7 +47,6 @@ public class RS_Project extends Application {
         root.getChildren().add(btn);
         
         Scene scene = new Scene(root, 300, 250);
-        scene.setFill(null);
         primaryStage.setScene(scene);
         primaryStage.show();
     }
