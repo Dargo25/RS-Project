@@ -51,7 +51,6 @@ public final class DisplayShedule {
         //Заполнение текста
         System.out.println("Введите текст");
         myEvent.setContent(scan.next());
-
     }
 
     private static String[] GetInfo(List<Subject> subjectList) {

@@ -15,17 +15,12 @@ import javafx.stage.Stage;
 import MainClasses.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
-import javafx.stage.StageStyle;
 
 /**
  *
  * @author Егор
  */
 public class RS_Project extends Application {
-    //Это поле коллекция пар. Юзай его.
     private static List<Subject> subjectList = new ArrayList<>();
     
     @Override
@@ -33,13 +28,10 @@ public class RS_Project extends Application {
         Button btn = new Button();
         btn.setText("Say 'Wake up, Artem!'");
         btn.setOnAction(new EventHandler<ActionEvent>() {
-            /*При нажатии клавиши на форме парсится xml,
-             * а затем выводится название предмета у 1-го объекта коллекции,
-             * т.е. выводится нахвание предмета первой пары
-             */
+            
             @Override
             public void handle(ActionEvent event) {
-                DisplayShedule.Display(subjectList);
+                DisplayShedule.Display(subjectList);                
             }
         });
         
