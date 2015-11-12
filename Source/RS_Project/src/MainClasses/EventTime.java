@@ -7,6 +7,7 @@ package MainClasses;
 
 import java.sql.Time;
 import java.util.Date;
+import java.util.Timer;
 
 /**
  *
@@ -17,6 +18,8 @@ public class EventTime {
     private Time singleEventTime;
     private Time startTime;
     private Time endTime;
+    private int interval; //maybe i'll call it period later...
+    private Timer timer;
 
     public Date getDate() {
         return date;

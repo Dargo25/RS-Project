@@ -31,7 +31,8 @@ public class RS_Project extends Application {
             
             @Override
             public void handle(ActionEvent event) {
-                DisplayShedule.Display(subjectList);                
+                DisplayShedule.Display(subjectList);
+                System.out.println(subjectList.get(1).getSubjectName());
             }
         });
         

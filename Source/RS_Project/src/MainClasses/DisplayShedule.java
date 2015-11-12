@@ -5,6 +5,7 @@
  */
 package MainClasses;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -15,6 +16,7 @@ import java.util.Scanner;
 public final class DisplayShedule {
 
     public static void Display(List<Subject> subjectList) {
+        Subject currentSubject = null;
         String[] info = GetInfo(subjectList);
         for (int i = 0; i < info.length; i++) {
             System.out.println(info[i]);
@@ -24,7 +26,8 @@ public final class DisplayShedule {
         System.out.println("Введите номер предмета");
         int subjNumber = scan.nextInt();
         if (GetSubjetForEvent(subjNumber, subjectList) != null) {
-            System.out.println(GetSubjetForEvent(subjNumber, subjectList));
+            currentSubject = GetSubjetForEvent(subjNumber, subjectList);
+            System.out.println(currentSubject.getSubjectName());
         } else {
             System.out.println("Неверный номер предмета");
         }
@@ -38,8 +41,8 @@ public final class DisplayShedule {
         if ("single".equals(type)) {
             myEvent.setType(EventType.SINGLE);
         } else {
-            if ("pereodic".equals(type)) {
-                myEvent.setType(EventType.SINGLE);
+            if ("periodic".equals(type)) {
+                myEvent.setType(EventType.PERIODIC);
             } else {
                 System.out.println("Неверный формат");
             }
@@ -51,24 +54,27 @@ public final class DisplayShedule {
         //Заполнение текста
         System.out.println("Введите текст");
         myEvent.setContent(scan.next());
+        
+        currentSubject.setEventList(new ArrayList<>());
+        currentSubject.getEventList().add(myEvent);
     }
 
     private static String[] GetInfo(List<Subject> subjectList) {
         ParseXML.scanXml(subjectList);
         String[] info = new String[subjectList.size()];
         for (int i = 0; i < subjectList.size(); i++) {
-            info[i] = String.format(subjectList.get(i).getNumberInTable() + ". " + subjectList.get(i).getSubjectName() + "\n\t" + subjectList.get(i).getLecturerName() + "; " + subjectList.get(i).getAudience() + "/" + subjectList.get(i).getHousing());
+            info[i] = subjectList.get(i).getNumberInTable() + ". " + subjectList.get(i).getSubjectName() + "\n\t" + subjectList.get(i).getLecturerName() + "; " + subjectList.get(i).getAudience() + "/" + subjectList.get(i).getHousing();
         }
         return info;
     }
 
-    private static String GetSubjetForEvent(int i, List<Subject> subjectList) {
-        String subjectName = null;
+    private static Subject GetSubjetForEvent(int i, List<Subject> subjectList) {
+        Subject subject = null;
         for (Subject subjectList1 : subjectList) {
             if (subjectList1.getNumberInTable() == i) {
-                subjectName = subjectList1.getSubjectName();
+                subject = subjectList1;
             }
         }
-        return subjectName;
+        return subject;
     }
 }
