@@ -39,7 +39,7 @@ public class ParseXML {
 
     public static void scanXml(List<Subject> subjectList) {
         try {
-            File file = new File("C:/My files/Учеба/GitHub/R&S Project/Source/RS_Project/src/MainClasses/Subjects.xml");
+            File file = new File("src/MainClasses/Subjects.xml");
             //File file = new File("C:/Subjects.xml");
             DocumentBuilder dBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
             Document doc = dBuilder.parse(file);
