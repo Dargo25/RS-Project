@@ -1,19 +1,19 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <Subjects>
-	<Subject>
-		<subjectName>Математика</subjectName>
-		<lecturerName>Плетнев</lecturerName>
-		<audience>528</audience>
-		<housing>1</housing>
-		<numberInTable>1</numberInTable>
-		<dayOfWeek>Monday</dayOfWeek>
-	</Subject>
-	<Subject>
-		<subjectName>Физика</subjectName>
-		<lecturerName>Глущенко</lecturerName>
-		<audience>311</audience>
-		<housing>2</housing>
-		<numberInTable>2</numberInTable>
-		<dayOfWeek>Monday</dayOfWeek>
-	</Subject>
+<Subject>
+<subjectName>Математика</subjectName>
+<lecturerName>Плетнев</lecturerName>
+<audience>528</audience>
+<housing>1</housing>
+<numberInTable>1</numberInTable>
+<dayOfWeek>Monday</dayOfWeek>
+</Subject>
+<Subject>
+<subjectName>Физика</subjectName>
+<lecturerName>Глущенко</lecturerName>
+<audience>311</audience>
+<housing>2</housing>
+<numberInTable>2</numberInTable>
+<dayOfWeek>Monday</dayOfWeek>
+</Subject>
 </Subjects>

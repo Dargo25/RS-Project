@@ -17,30 +17,14 @@ import org.w3c.dom.NodeList;
  *
  * @author Samosad
  */
-public class ParseXML {
-//    Sorry Artem, but this is bullshit =)    
-//    static NodeList list; 
-//    public static void Inicialize () throws ParserConfigurationException, SAXException, IOException{ 
-//    File xmlFile = new File("Subjects.xml");
-//    DocumentBuilderFactory dbf =  DocumentBuilderFactory.newInstance();
-//    DocumentBuilder db = dbf.newDocumentBuilder();
-//    Document doc = db.parse(xmlFile);
-//    list = doc.getElementsByTagName("Subjects");
-//    }
-//    
-//    public static void GetSubjectInformation (){
-//        
-//        for (int i = 0;i<list.getLength();i++) {
-//            
-//            Node node = list.item(i);
-//        }
-//        }
-//          
+public final class ParseXML {
 
     public static void scanXml(List<Subject> subjectList) {
         try {
             File file = new File("src/MainClasses/Subjects.xml");
-            //File file = new File("C:/Subjects.xml");
+
+            
+
             DocumentBuilder dBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
             Document doc = dBuilder.parse(file);
 
@@ -57,9 +41,10 @@ public class ParseXML {
         
         for (int count = 0; count < nodeList.getLength(); count++) {
             Node tempNode = nodeList.item(count);
-            if ("Subject".equals(tempNode.getNodeName()))
+            if ("Subject".equals(tempNode.getNodeName())) {
                 subj = new Subject();
-            
+            }
+
             // make sure it's element node.
             if (tempNode.getNodeType() == Node.ELEMENT_NODE) {
                 // get node name and value
@@ -79,23 +64,30 @@ public class ParseXML {
                     subj.setNumberInTable(Integer.parseInt(tempNode.getTextContent()));
                 }
                 if ("dayOfWeek".equals(tempNode.getNodeName())) {
-                    if ("Monday".equals(tempNode.getTextContent())) 
+                    if ("Monday".equals(tempNode.getTextContent())) {
                         subj.setDay(DaysOfWeek.MONDAY);
-                    if ("Tuesday".equals(tempNode.getTextContent()))
+                    }
+                    if ("Tuesday".equals(tempNode.getTextContent())) {
                         subj.setDay(DaysOfWeek.TUESDAY);
-                    if ("Wednesday".equals(tempNode.getTextContent()))
+                    }
+                    if ("Wednesday".equals(tempNode.getTextContent())) {
                         subj.setDay(DaysOfWeek.WEDNESDAY);
-                    if ("Thursday".equals(tempNode.getTextContent()))
+                    }
+                    if ("Thursday".equals(tempNode.getTextContent())) {
                         subj.setDay(DaysOfWeek.THURSDAY);
-                    if ("Friday".equals(tempNode.getTextContent()))
+                    }
+                    if ("Friday".equals(tempNode.getTextContent())) {
                         subj.setDay(DaysOfWeek.FRIDAY);
-                    if ("Saturday".equals(tempNode.getTextContent()))
+                    }
+                    if ("Saturday".equals(tempNode.getTextContent())) {
                         subj.setDay(DaysOfWeek.SATURDEY);
+                    }
                 }
-                
-                if ("dayOfWeek".equals(tempNode.getNodeName()))
+
+                if ("dayOfWeek".equals(tempNode.getNodeName())) {
                     subjectList.add(subj);
-                
+                }
+
                 if (tempNode.hasChildNodes()) {
                     // loop again if has child nodes
                     scanNode(tempNode.getChildNodes(), subjectList);
