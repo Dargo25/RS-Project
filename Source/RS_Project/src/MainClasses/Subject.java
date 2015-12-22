@@ -5,6 +5,7 @@
  */
 package MainClasses;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,6 +20,10 @@ public class Subject {
     private List<SubjectEvent> eventList;
     private int numberInTable;
     private DaysOfWeek day;
+    
+    public Subject (){
+        this.eventList = new ArrayList<>();
+    }
 
     public String getSubjectName() {
         return subjectName;

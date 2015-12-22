@@ -5,6 +5,7 @@
  */
 package MainClasses;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -16,6 +17,10 @@ public class SubjectEvent {
     private String header;
     private String content;
     private List<EventTime> timeList;
+    
+    public SubjectEvent(){
+        this.timeList = new ArrayList<>();
+    }
 
     public EventType getType() {
         return type;
