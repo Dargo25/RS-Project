@@ -18,6 +18,7 @@ public final class DisplayShedule {
     public static void Display(List<Subject> subjectList) {
         Subject currentSubject = null;
         String[] info = GetInfo(subjectList);
+        
         for (int i = 0; i < info.length; i++) {
             System.out.println(info[i]);
         }
