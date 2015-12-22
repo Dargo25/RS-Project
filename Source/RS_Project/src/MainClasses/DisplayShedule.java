@@ -6,6 +6,7 @@
 package MainClasses;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 
@@ -54,6 +55,17 @@ public final class DisplayShedule {
         //Заполнение текста
         System.out.println("Введите текст");
         myEvent.setContent(scan.next());
+        //Добавим время запуска
+        System.out.println("Введите год, месяц, день, час, минуты");
+        int year = scan.nextInt();
+        int month = scan.nextInt();
+        int day = scan.nextInt();
+        int hour = scan.nextInt();
+        int minutes = scan.nextInt();
+        EventTime time = new EventTime();
+        time.setDate(new Date(year-1900, month-1, day, hour, minutes));
+        myEvent.setTimeList(new ArrayList<>());
+        myEvent.getTimeList().add(time);
         
         currentSubject.setEventList(new ArrayList<>());
         currentSubject.getEventList().add(myEvent);

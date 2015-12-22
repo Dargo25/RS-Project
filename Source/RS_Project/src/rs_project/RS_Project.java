@@ -13,8 +13,18 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import MainClasses.*;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
+import org.xml.sax.SAXException;
 
 /**
  *
@@ -22,6 +32,7 @@ import java.util.List;
  */
 public class RS_Project extends Application {
     private static List<Subject> subjectList = new ArrayList<>();
+    Timer timer;
     
     @Override
     public void start(Stage primaryStage) {
@@ -31,8 +42,27 @@ public class RS_Project extends Application {
             
             @Override
             public void handle(ActionEvent event) {
+//                try {
                 DisplayShedule.Display(subjectList);
-                System.out.println(subjectList.get(1).getSubjectName());
+//                    ParseXML.ChangeXML();
+////                timer = new Timer();
+////                TimerTask task = new TimerTask() {
+////
+////                    @Override
+////                    public void run() {
+////                        System.out.println("'Wake up, Artem!'");
+////                    }
+////                };
+////                timer.schedule(task, new Date(2015-1900, 12-1, 16, 14, 21));
+//                } catch (SAXException ex) {
+//                    Logger.getLogger(RS_Project.class.getName()).log(Level.SEVERE, null, ex);
+//                } catch (IOException ex) {
+//                    Logger.getLogger(RS_Project.class.getName()).log(Level.SEVERE, null, ex);
+//                } catch (ParserConfigurationException ex) {
+//                    Logger.getLogger(RS_Project.class.getName()).log(Level.SEVERE, null, ex);
+//                } catch (TransformerException ex) {
+//                    Logger.getLogger(RS_Project.class.getName()).log(Level.SEVERE, null, ex);
+//                }
             }
         });
         

@@ -1,5 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
-<Subjects>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><Subjects>
 <Subject>
 <subjectName>Математика</subjectName>
 <lecturerName>Плетнев</lecturerName>
@@ -16,4 +15,4 @@
 <numberInTable>2</numberInTable>
 <dayOfWeek>Monday</dayOfWeek>
 </Subject>
-</Subjects>
+<Subject><subjectName>Хахаха</subjectName><lecturerName>Препод</lecturerName><audience>666</audience><housing>9</housing><numberInTable>3</numberInTable><dayOfWeek>Monday</dayOfWeek></Subject></Subjects>
