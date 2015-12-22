@@ -65,10 +65,8 @@ public final class DisplayShedule {
         int minutes = scan.nextInt();
         EventTime time = new EventTime();
         time.setDate(new Date(year-1900, month-1, day, hour, minutes));
-        myEvent.setTimeList(new ArrayList<>());
         myEvent.getTimeList().add(time);
         
-        currentSubject.setEventList(new ArrayList<>());
         currentSubject.getEventList().add(myEvent);
     }
 

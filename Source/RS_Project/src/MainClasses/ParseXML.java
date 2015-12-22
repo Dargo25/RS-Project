@@ -103,7 +103,7 @@ public final class ParseXML {
         }
     }
     
-    public static void ChangeXML(/*DaysOfWeek day, int numberInTable, EventType type, String header, String content, EventTime time*/) throws SAXException, IOException, ParserConfigurationException, TransformerException {
+    public static void ChangeXML(DaysOfWeek day, int numberInTable, SubjectEvent event) throws SAXException, IOException, ParserConfigurationException, TransformerException {
         String xmlFile = "src/MainClasses/Subjects.xml";
         
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
@@ -112,13 +112,20 @@ public final class ParseXML {
         
         NodeList subjects = document.getFirstChild().getChildNodes();
         
-//        for(int i = 0; i < subjects.getLength(); i++){
-//            Node curSubject = subjects.item(i);
-//            if(curSubject.getAttributes().getNamedItem("id").getTextContent().equals("2")){
-//                Node quantity = curSubject.getChildNodes().item(1);
-//                quantity.setTextContent("250");
-//            }
-//        }
+        for(int i = 0; i < subjects.getLength(); i++){
+            Node curSubject = subjects.item(i);
+            NodeList childList = curSubject.getChildNodes();
+            for (int j = 0; j < childList.getLength(); j++ ) {
+                Node child = childList.item(j);
+                if ("numberInTable".equals(child.getNodeName()) && child.getTe) {
+                    
+                }
+            }
+            if(curSubject.getAttributes().getNamedItem("id").getTextContent().equals("2")){
+                Node quantity = curSubject.getChildNodes().item(1);
+                quantity.setTextContent("250");
+            }
+        }
         
         
         Node rootElement = document.getFirstChild();
