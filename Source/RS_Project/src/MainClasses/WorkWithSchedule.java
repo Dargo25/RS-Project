@@ -6,10 +6,12 @@
 package MainClasses;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.xml.parsers.ParserConfigurationException;
@@ -20,7 +22,7 @@ import org.xml.sax.SAXException;
  *
  * @author Егор
  */
-public final class DisplayShedule {
+public final class WorkWithSchedule {
 
     public static void Display(List<Subject> subjectList) {
         String[] info = GetInfo(subjectList);
@@ -54,7 +56,8 @@ public final class DisplayShedule {
         Scanner scan = new Scanner(System.in);
         //Поиск предмета по номеру + проверка на корректность
         System.out.println("Введите номер предмета");
-        int subjNumber = scan.nextInt();
+        //int subjNumber = scan.nextInt();
+        int subjNumber = 1;
         if (GetSubjetForEvent(subjNumber, subjectList) != null) {
             currentSubject = GetSubjetForEvent(subjNumber, subjectList);
             System.out.println(currentSubject.getSubjectName());
@@ -63,16 +66,17 @@ public final class DisplayShedule {
         }
 
         //Создание события и заполнение полей
-        SubjectEvent myEvent = new SubjectEvent();
+        SubjectEvent event = new SubjectEvent();
 
         //Заполнение типа
         System.out.println("Введите тип");
-        String type = scan.next();
+        //String type = scan.next();
+        String type = "single";
         if ("single".equals(type)) {
-            myEvent.setType(EventType.SINGLE);
+            event.setType(EventType.SINGLE);
         } else {
             if ("periodic".equals(type)) {
-                myEvent.setType(EventType.PERIODIC);
+                event.setType(EventType.PERIODIC);
             } else {
                 System.out.println("Неверный формат");
             }
@@ -80,35 +84,57 @@ public final class DisplayShedule {
 
         //Заполнение заголовка
         System.out.println("Введите заголовок");
-        String header = scan.nextLine();
-        myEvent.setHeader(header);
+        //String header = scan.nextLine();
+        String header = "Новое событие";
+        event.setHeader(header);
         //Заполнение текста
         System.out.println("Введите текст");
-        String content = scan.nextLine();
-        myEvent.setContent(content);
+        //String content = scan.nextLine();
+        String content = "Текст события";
+        event.setContent(content);
         //Добавим время запуска
         System.out.println("Введите год, месяц, день, час, минуты");
-        int year = scan.nextInt();
-        int month = scan.nextInt();
-        int day = scan.nextInt();
-        int hour = scan.nextInt();
-        int minutes = scan.nextInt();
+//        int year = scan.nextInt();
+//        int month = scan.nextInt();
+//        int day = scan.nextInt();
+//        int hour = scan.nextInt();
+//        int minutes = scan.nextInt();
+        int year = 2015;
+        int month = 12;
+        int day = 24;
+        int hour = 21;
+        int minutes = 59;
         EventTime time = new EventTime();
         time.setDate(new Date(year-1900, month-1, day, hour, minutes));
-        myEvent.getTimeList().add(time);
-        
-        currentSubject.getEventList().add(myEvent);
+        event.getTimeList().add(time);
+
+        currentSubject.getEventList().add(event);
+        CreateTimer(event);
         
         try {
             ParseXML.AddNewEventToXML(currentSubject);
         } catch (SAXException ex) {
-            Logger.getLogger(DisplayShedule.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(WorkWithSchedule.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
-            Logger.getLogger(DisplayShedule.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(WorkWithSchedule.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ParserConfigurationException ex) {
-            Logger.getLogger(DisplayShedule.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(WorkWithSchedule.class.getName()).log(Level.SEVERE, null, ex);
         } catch (TransformerException ex) {
-            Logger.getLogger(DisplayShedule.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(WorkWithSchedule.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    
+    public static void CreateTimer(SubjectEvent event) {
+        Timer timer = new Timer();
+        
+        TimerTask task = new TimerTask() {
+
+            @Override
+            public void run() {
+                System.out.println(event.getHeader() + "\n\t" + event.getContent());
+            }
+        };
+        
+        timer.schedule(task, event.getTimeList().get(event.getTimeList().size() - 1).getDate());
     }
 }
