@@ -144,10 +144,12 @@ public class RS_Project extends Application {
             
             @Override
             public void handle(ActionEvent event) {
-                grid.getChildren().clear();
-                
-                CurrentDay = GetNextDay(CurrentDay);
-                start(primaryStage);
+//                grid.getChildren().clear();
+//                
+//                CurrentDay = GetNextDay(CurrentDay);
+//                start(primaryStage);
+                WorkWithSchedule.Display(subjectList);
+                WorkWithSchedule.addEventToSubject(subjectList);
             }
         });
                 
