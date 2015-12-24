@@ -87,10 +87,10 @@ public class RS_Project extends Application {
                 sbj11.setDay(DaysOfWeek.FRIDAY);
                 sbj11.setSubjectName("FridaySecond");
         Subject sbj12 = new Subject();
-                sbj12.setDay(DaysOfWeek.SATURDEY);
+                sbj12.setDay(DaysOfWeek.SATURDAY);
                 sbj12.setSubjectName("TuesdayFirst");
         Subject sbj14 = new Subject();
-                sbj14.setDay(DaysOfWeek.SATURDEY);
+                sbj14.setDay(DaysOfWeek.SATURDAY);
                 sbj14.setSubjectName("TuesdaySecond");
         
         ArrayList<Subject> testSubject = new ArrayList<Subject>();
@@ -224,10 +224,10 @@ public class RS_Project extends Application {
         
         
         if (cDay==DaysOfWeek.FRIDAY){
-            return DaysOfWeek.SATURDEY;
+            return DaysOfWeek.SATURDAY;
         }
         
-        if (cDay==DaysOfWeek.SATURDEY){
+        if (cDay==DaysOfWeek.SATURDAY){
             return DaysOfWeek.MONDAY;
         }
         return null;
@@ -253,12 +253,12 @@ public class RS_Project extends Application {
         }
         
         
-        if (cDay==DaysOfWeek.SATURDEY){
+        if (cDay==DaysOfWeek.SATURDAY){
             return DaysOfWeek.FRIDAY;
         }
         
         if (cDay==DaysOfWeek.MONDAY){
-            return DaysOfWeek.SATURDEY;
+            return DaysOfWeek.SATURDAY;
         }
         return null;
     }

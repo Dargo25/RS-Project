@@ -87,7 +87,7 @@ public final class ParseXML {
                         subj.setDay(DaysOfWeek.FRIDAY);
                     }
                     if ("Saturday".equals(tempNode.getTextContent())) {
-                        subj.setDay(DaysOfWeek.SATURDEY);
+                        subj.setDay(DaysOfWeek.SATURDAY);
                     }
                 }
 
@@ -103,7 +103,7 @@ public final class ParseXML {
         }
     }
     
-    public static void ChangeXML(DaysOfWeek day, int numberInTable, SubjectEvent event) throws SAXException, IOException, ParserConfigurationException, TransformerException {
+    public static void AddNewEventToXML(Subject currentSubject) throws SAXException, IOException, ParserConfigurationException, TransformerException {
         String xmlFile = "src/MainClasses/Subjects.xml";
         
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
@@ -114,41 +114,49 @@ public final class ParseXML {
         
         for(int i = 0; i < subjects.getLength(); i++){
             Node curSubject = subjects.item(i);
-            NodeList childList = curSubject.getChildNodes();
-            for (int j = 0; j < childList.getLength(); j++ ) {
-                Node child = childList.item(j);
-                if ("numberInTable".equals(child.getNodeName()) && child.getTe) {
+            NodeList subjectChildren = curSubject.getChildNodes();
+            boolean isCorrectDay = false;
+            boolean isCorrectSubjectNumber = false;
+            for (int j = 0; j < subjectChildren.getLength(); j++ ) {
+                Node child = subjectChildren.item(j);
+                if ("dayOfWeek".equals(child.getNodeName()) && currentSubject.getDay().toString().toLowerCase().equals(child.getTextContent().toLowerCase())) {
+                    isCorrectDay = true;
+                }
+                if (isCorrectDay && "numberInTable".equals(child.getNodeName()) && Integer.parseInt(child.getTextContent()) == currentSubject.getNumberInTable()) {
+                    isCorrectSubjectNumber = true;
+                }
+                if (isCorrectSubjectNumber && "Events".equals(child.getNodeName())) {
+                    SubjectEvent currentEvent = currentSubject.getEventList().get(currentSubject.getEventList().size() - 1);
+                    EventTime currentTime = currentEvent.getTimeList().get(0);
+                    Element event = document.createElement("Event");
                     
+                    /*УЧЕСТЬ В ДАЛЬНЕЙШЕМ ДРУГОЙ ТИП СОБЫТИЯ*/
+                    
+                    Element type = document.createElement("type");
+                    type.setTextContent(currentEvent.getType().toString());
+                    Element header = document.createElement("header");
+                    header.setTextContent(currentEvent.getHeader());
+                    Element content = document.createElement("content");
+                    content.setTextContent(currentEvent.getContent());
+                    Element date = document.createElement("date");
+                    
+                    /*УЧЕСТЬ В ДАЛЬНЕЙШЕМ ЧТО В ЛИСТЕ МОЖЕТ БЫТЬ НЕСКОЛЬКО ВРЕМЕН */
+                    
+                    date.setTextContent(currentTime.getDate().getDate() + "." + (currentTime.getDate().getMonth() + 1) + "." + (currentTime.getDate().getYear() + 1900));
+                    Element startTime = document.createElement("startTime");
+                    startTime.setTextContent(currentTime.getDate().getHours() + ":" + currentTime.getDate().getMinutes());
+                    
+                    /*УЧЕСТЬ ДОБАВЛЕНИЕ ТЭГОВ endTime и interval*/
+                    
+                    event.appendChild(type);
+                    event.appendChild(header);
+                    event.appendChild(content);
+                    event.appendChild(date);
+                    event.appendChild(startTime);
+                    child.appendChild(event);
                 }
             }
-            if(curSubject.getAttributes().getNamedItem("id").getTextContent().equals("2")){
-                Node quantity = curSubject.getChildNodes().item(1);
-                quantity.setTextContent("250");
-            }
         }
-        
-        
-        Node rootElement = document.getFirstChild();
-        Element subject = document.createElement("Subject");
-        rootElement.appendChild(subject);
-        Element subjectName = document.createElement("subjectName");
-        subjectName.setTextContent("Хахаха");
-        Element lecturerName = document.createElement("lecturerName");
-        lecturerName.setTextContent("Препод");
-        Element audience = document.createElement("audience");
-        audience.setTextContent("666");
-        Element housing = document.createElement("housing");
-        housing.setTextContent("9");
-        Element numberInTable = document.createElement("numberInTable");
-        numberInTable.setTextContent("3");
-        Element dayOfWeek = document.createElement("dayOfWeek");
-        dayOfWeek.setTextContent("Monday");
-        subject.appendChild(subjectName);
-        subject.appendChild(lecturerName);
-        subject.appendChild(audience);
-        subject.appendChild(housing);
-        subject.appendChild(numberInTable);
-        subject.appendChild(dayOfWeek);
         
         TransformerFactory transformerFactory = TransformerFactory
                 .newInstance();
