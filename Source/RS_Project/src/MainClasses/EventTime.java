@@ -14,9 +14,9 @@ import java.util.Date;
  */
 public class EventTime {
     private Date date;
-    private Time singleEventTime;
-    private Time startTime;
-    private Time endTime;
+    //private Time singleEventTime;
+    //private Time startTime;
+    //private Time endTime;
     private int interval;
 
     public Date getDate() {
@@ -27,29 +27,29 @@ public class EventTime {
         this.date = date;
     }
 
-    public Time getSingleEventTime() {
-        return singleEventTime;
-    }
-
-    public void setSingleEventTime(Time singleEventTime) {
-        this.singleEventTime = singleEventTime;
-    }
-
-    public Time getStartTime() {
-        return startTime;
-    }
-
-    public void setStartTime(Time startTime) {
-        this.startTime = startTime;
-    }
-
-    public Time getEndTime() {
-        return endTime;
-    }
-    
-    public void setEndTime(Time endTime) {
-        this.endTime = endTime;
-    }
+//    public Time getSingleEventTime() {
+//        return singleEventTime;
+//    }
+//
+//    public void setSingleEventTime(Time singleEventTime) {
+//        this.singleEventTime = singleEventTime;
+//    }
+//
+//    public Time getStartTime() {
+//        return startTime;
+//    }
+//
+//    public void setStartTime(Time startTime) {
+//        this.startTime = startTime;
+//    }
+//
+//    public Time getEndTime() {
+//        return endTime;
+//    }
+//    
+//    public void setEndTime(Time endTime) {
+//        this.endTime = endTime;
+//    }
     
     public int getInterval() {
         return interval;
