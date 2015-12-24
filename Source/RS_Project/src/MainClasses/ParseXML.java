@@ -27,13 +27,12 @@ import org.w3c.dom.Element;
  * @author Samosad
  */
 public final class ParseXML {
-
+    private static File xmlFile = new File("src/MainClasses/Subjects.xml");
+    
     public static void scanXml(List<Subject> subjectList) {
         try {
-            File file = new File("src/MainClasses/Subjects.xml");
-            
             DocumentBuilder dBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-            Document doc = dBuilder.parse(file);
+            Document doc = dBuilder.parse(xmlFile);
 
             if (doc.hasChildNodes()) {
                 scanNode(doc.getChildNodes(), subjectList);
@@ -44,67 +43,67 @@ public final class ParseXML {
     }
 
     private static void scanNode(NodeList nodeList, List<Subject> subjectList) {
-        Subject subj = new Subject();
+        Subject subject = new Subject();
         
-        for (int count = 0; count < nodeList.getLength(); count++) {
-            Node tempNode = nodeList.item(count);
-            if ("Subject".equals(tempNode.getNodeName())) {
-                subj = new Subject();
+        for (int i = 0; i < nodeList.getLength(); i++) {
+            Node subjectChildNode = nodeList.item(i);
+            if ("Subject".equals(subjectChildNode.getNodeName())) {
+                subject = new Subject();
             }
 
             // make sure it's element node.
-            if (tempNode.getNodeType() == Node.ELEMENT_NODE) {
+            if (subjectChildNode.getNodeType() == Node.ELEMENT_NODE) {
                 // get node name and value
-                if ("subjectName".equals(tempNode.getNodeName())) {
-                    subj.setSubjectName(tempNode.getTextContent());
+                if ("subjectName".equals(subjectChildNode.getNodeName())) {
+                    subject.setSubjectName(subjectChildNode.getTextContent());
                 }
-                if ("lecturerName".equals(tempNode.getNodeName())) {
-                    subj.setLecturerName(tempNode.getTextContent());
+                if ("lecturerName".equals(subjectChildNode.getNodeName())) {
+                    subject.setLecturerName(subjectChildNode.getTextContent());
                 }
-                if ("audience".equals(tempNode.getNodeName())) {
-                    subj.setAudience(Integer.parseInt(tempNode.getTextContent()));
+                if ("audience".equals(subjectChildNode.getNodeName())) {
+                    subject.setAudience(Integer.parseInt(subjectChildNode.getTextContent()));
                 }
-                if ("housing".equals(tempNode.getNodeName())) {
-                    subj.setHousing(Integer.parseInt(tempNode.getTextContent()));
+                if ("housing".equals(subjectChildNode.getNodeName())) {
+                    subject.setHousing(Integer.parseInt(subjectChildNode.getTextContent()));
                 }
-                if ("numberInTable".equals(tempNode.getNodeName())) {
-                    subj.setNumberInTable(Integer.parseInt(tempNode.getTextContent()));
+                if ("numberInTable".equals(subjectChildNode.getNodeName())) {
+                    subject.setNumberInTable(Integer.parseInt(subjectChildNode.getTextContent()));
                 }
-                if ("dayOfWeek".equals(tempNode.getNodeName())) {
-                    if ("Monday".equals(tempNode.getTextContent())) {
-                        subj.setDay(DaysOfWeek.MONDAY);
+                if ("dayOfWeek".equals(subjectChildNode.getNodeName())) {
+                    if ("Monday".equals(subjectChildNode.getTextContent())) {
+                        subject.setDay(DaysOfWeek.MONDAY);
                     }
-                    if ("Tuesday".equals(tempNode.getTextContent())) {
-                        subj.setDay(DaysOfWeek.TUESDAY);
+                    if ("Tuesday".equals(subjectChildNode.getTextContent())) {
+                        subject.setDay(DaysOfWeek.TUESDAY);
                     }
-                    if ("Wednesday".equals(tempNode.getTextContent())) {
-                        subj.setDay(DaysOfWeek.WEDNESDAY);
+                    if ("Wednesday".equals(subjectChildNode.getTextContent())) {
+                        subject.setDay(DaysOfWeek.WEDNESDAY);
                     }
-                    if ("Thursday".equals(tempNode.getTextContent())) {
-                        subj.setDay(DaysOfWeek.THURSDAY);
+                    if ("Thursday".equals(subjectChildNode.getTextContent())) {
+                        subject.setDay(DaysOfWeek.THURSDAY);
                     }
-                    if ("Friday".equals(tempNode.getTextContent())) {
-                        subj.setDay(DaysOfWeek.FRIDAY);
+                    if ("Friday".equals(subjectChildNode.getTextContent())) {
+                        subject.setDay(DaysOfWeek.FRIDAY);
                     }
-                    if ("Saturday".equals(tempNode.getTextContent())) {
-                        subj.setDay(DaysOfWeek.SATURDAY);
+                    if ("Saturday".equals(subjectChildNode.getTextContent())) {
+                        subject.setDay(DaysOfWeek.SATURDAY);
                     }
                 }
 
-                if ("dayOfWeek".equals(tempNode.getNodeName())) {
-                    subjectList.add(subj);
+                if ("dayOfWeek".equals(subjectChildNode.getNodeName())) {
+                    subjectList.add(subject);
                 }
 
-                if (tempNode.hasChildNodes()) {
+                if (subjectChildNode.hasChildNodes()) {
                     // loop again if has child nodes
-                    scanNode(tempNode.getChildNodes(), subjectList);
+                    scanNode(subjectChildNode.getChildNodes(), subjectList);
                 }
             }
         }
     }
     
     public static void AddNewEventToXML(Subject currentSubject) throws SAXException, IOException, ParserConfigurationException, TransformerException {
-        String xmlFile = "src/MainClasses/Subjects.xml";
+        //String xmlFile = "src/MainClasses/Subjects.xml";
         
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = dbf.newDocumentBuilder();
@@ -115,8 +114,8 @@ public final class ParseXML {
         for(int i = 0; i < subjects.getLength(); i++){
             Node curSubject = subjects.item(i);
             NodeList subjectChildren = curSubject.getChildNodes();
-            boolean isCorrectDay = false;
-            boolean isCorrectSubjectNumber = false;
+            boolean isCorrectDay = false; /*для проверки, работаем ли мы с предметами того дня, который указал пользователь*/
+            boolean isCorrectSubjectNumber = false; /*для проверки, работаем ли мы с нужным пользователю предметом, т.е. проверяем номер предмета в расписании*/
             for (int j = 0; j < subjectChildren.getLength(); j++ ) {
                 Node child = subjectChildren.item(j);
                 if ("dayOfWeek".equals(child.getNodeName()) && currentSubject.getDay().toString().toLowerCase().equals(child.getTextContent().toLowerCase())) {
@@ -162,7 +161,7 @@ public final class ParseXML {
                 .newInstance();
         Transformer transformer = transformerFactory.newTransformer();
         DOMSource source = new DOMSource(document);
-        StreamResult result = new StreamResult(new File(xmlFile));
+        StreamResult result = new StreamResult(xmlFile);
         transformer.transform(source, result);
     }
 }
