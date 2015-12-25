@@ -109,7 +109,7 @@ public final class WorkWithSchedule {
         event.getTimeList().add(time);
 
         currentSubject.getEventList().add(event);
-        CreateTimer(event);
+        //CreateTimer(event);
         
         try {
             ParseXML.AddNewEventToXML(currentSubject);
@@ -124,17 +124,17 @@ public final class WorkWithSchedule {
         }
     }
     
-    public static void CreateTimer(SubjectEvent event) {
-        Timer timer = new Timer();
-        
-        TimerTask task = new TimerTask() {
-
-            @Override
-            public void run() {
-                System.out.println(event.getHeader() + "\n\t" + event.getContent());
-            }
-        };
-        
-        timer.schedule(task, event.getTimeList().get(event.getTimeList().size() - 1).getDate());
-    }
+//    public static void CreateTimer(SubjectEvent event) {
+//        Timer timer = new Timer();
+//        
+//        TimerTask task = new TimerTask() {
+//
+//            @Override
+//            public void run() {
+//                System.out.println(event.getHeader() + "\n\t" + event.getContent());
+//            }
+//        };
+//        
+//        timer.schedule(task, event.getTimeList().get(event.getTimeList().size() - 1).getDate());
+//    }
 }
