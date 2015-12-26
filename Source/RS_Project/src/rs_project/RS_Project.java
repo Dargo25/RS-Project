@@ -13,8 +13,12 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import MainClasses.*;
+import com.sun.deploy.trace.Trace;
+import com.sun.javafx.geom.Vec2f;
+import com.sun.javaws.Main;
 import java.awt.Image;
 import java.awt.Insets;
+import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -24,7 +28,9 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.event.Event;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
@@ -131,7 +137,7 @@ public class RS_Project extends Application {
         }
        return CurrentSubjects;
     }
-    private static ArrayList<Label> WriteSubjectsToLabels (ArrayList<Subject> Subjects){
+    private  ArrayList<Label> WriteSubjectsToLabels (ArrayList<Subject> Subjects){
         ArrayList <Label> labelList = new ArrayList<>();
         double counter = firstSubjectPosition;
         for (int i = 0;i<Subjects.size();i++){
@@ -139,6 +145,7 @@ public class RS_Project extends Application {
             tempLabel.setLayoutX(counter);
             tempLabel.setLayoutY(200);
             labelList.add(tempLabel);
+            addTranslateListener(tempLabel);
             counter++;
         }
         return labelList;
@@ -212,7 +219,39 @@ public class RS_Project extends Application {
         }
         return null;
     }
+        
+        
+        
+    //Что-то странное    
+
+   private void addTranslateListener(final Node node) { 
+   node.setOnMousePressed(new EventHandler() { 
+              
+//   public void handle(MouseEvent mouseEvent) throws Exception { 
+//      
+//       frmAddSubjectEvent fm = new frmAddSubjectEvent();
+//       fm.start(new Stage());
+//      //Main.this.node = node;   // сохраняем ссылку на объект 
+//    } 
+
+       @Override
+       public void handle(Event event) {
+           //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        frmAddSubjectEvent fm = new frmAddSubjectEvent();
+        //fm.SetSubject(null);
+       try {
+           fm.start(new Stage());
+       } catch (Exception ex) {
+           Logger.getLogger(RS_Project.class.getName()).log(Level.SEVERE, null, ex);
+       }
+       }
+    });
+   }
+}
     
-}    
+
+  
+    
+
     
     

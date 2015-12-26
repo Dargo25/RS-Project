@@ -90,7 +90,7 @@ public final class ParseXML {
                     }
                 }
 
-                if ("dayOfWeek".equals(subjectChildNode.getNodeName())) {
+                if ("numberInTable".equals(subjectChildNode.getNodeName())) {
                     subjectList.add(subject);
                 }
 
