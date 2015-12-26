@@ -101,9 +101,9 @@ public final class WorkWithSchedule {
 //        int minutes = scan.nextInt();
         int year = 2015;
         int month = 12;
-        int day = 24;
-        int hour = 21;
-        int minutes = 59;
+        int day = 25;
+        int hour = 18;
+        int minutes = 8;
         EventTime time = new EventTime();
         time.setDate(new Date(year-1900, month-1, day, hour, minutes));
         event.getTimeList().add(time);
