@@ -7,6 +7,7 @@ package MainClasses;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -47,10 +48,11 @@ public final class ParseXML {
         
         for (int i = 0; i < nodeList.getLength(); i++) {
             Node subjectChildNode = nodeList.item(i);
+            
             if ("Subject".equals(subjectChildNode.getNodeName())) {
                 subject = new Subject();
             }
-
+            boolean isLastNode = false;
             // make sure it's element node.
             if (subjectChildNode.getNodeType() == Node.ELEMENT_NODE) {
                 // get node name and value
@@ -66,10 +68,10 @@ public final class ParseXML {
                 if ("housing".equals(subjectChildNode.getNodeName())) {
                     subject.setHousing(Integer.parseInt(subjectChildNode.getTextContent()));
                 }
-                if ("numberInTable".equals(subjectChildNode.getNodeName())) {
-                    subject.setNumberInTable(Integer.parseInt(subjectChildNode.getTextContent()));
-                }
                 if ("dayOfWeek".equals(subjectChildNode.getNodeName())) {
+                    
+                    /*ВОЗМОЖНО ПЕРЕДЕЛАТЬ НА СРАВНЕНИЕ ЧИСЕЛ И В XML ХРАНИТЬ НЕ НАЗВАНИЯ ДНЯ НЕДЕЛИ А ЕГО НОМЕР Т.К. ЭТО ЕНАМ И ЕГО МОЖНО ПРЕДСТАВЛЯТЬ ЧИСЛАМИ*/
+                    
                     if ("Monday".equals(subjectChildNode.getTextContent())) {
                         subject.setDay(DaysOfWeek.MONDAY);
                     }
@@ -89,8 +91,62 @@ public final class ParseXML {
                         subject.setDay(DaysOfWeek.SATURDAY);
                     }
                 }
+<<<<<<< HEAD
+                if ("numberInTable".equals(subjectChildNode.getNodeName())) {
+                    subject.setNumberInTable(Integer.parseInt(subjectChildNode.getTextContent()));
+                }
+                
+                if ("Events".equals(subjectChildNode.getNodeName())) {
+                    NodeList events = subjectChildNode.getChildNodes(); //Список событий для предмета
+                    if (events.getLength() != 0) {
+                        for (int k = 0; k < events.getLength(); k++) { //Проходимся по тегам Event
+                            if ("Event".equals(events.item(k).getNodeName())) {
+                                SubjectEvent currentEvent = new SubjectEvent(); //Текущее просматриваемое событие
+                                EventTime currentTime = new EventTime();  
+                                Date date = new Date();
+                                Node currentEventNode = events.item(k);  //Текущий тег Event
+                                NodeList eventNodeChildren = currentEventNode.getChildNodes(); //Его дети
+                                
+                                for (int z = 0; z < eventNodeChildren.getLength(); z++) { //Проходимся по дочерним тегам Event
+                                    Node eventChild = eventNodeChildren.item(z); //Текущий тег-ребенок от тега Event
+                                    if ("type".equals(eventChild.getNodeName())) {
+                                        if ("SINGLE".equals(eventChild.getTextContent())) {
+                                            currentEvent.setType(EventType.SINGLE);
+                                        }
+                                        else if ("PERIODIC".equals(eventChild.getTextContent())) {
+                                            currentEvent.setType(EventType.PERIODIC);
+                                        }
+                                    }
+                                    if ("header".equals(eventChild.getNodeName())) {
+                                        currentEvent.setHeader(eventChild.getTextContent());
+                                    }
+                                    if ("content".equals(eventChild.getNodeName())) {
+                                        currentEvent.setContent(eventChild.getTextContent());
+                                    }
+                                    if ("date".equals(eventChild.getNodeName())) {
+                                        String[] dateArray = eventChild.getTextContent().split("[.]");
+                                        date.setDate(Integer.parseInt(dateArray[0]));
+                                        date.setMonth(Integer.parseInt(dateArray[1]) - 1);
+                                        date.setYear(Integer.parseInt(dateArray[2]) - 1900);
+                                        date.setHours(Integer.parseInt(dateArray[3]));
+                                        date.setMinutes(Integer.parseInt(dateArray[4]));
+                                    }
+                                }
+                                
+                                currentTime.setDate(date);
+                                currentEvent.getTimeList().add(currentTime);
+                                subject.getEventList().add(currentEvent);
+                            }
+                        }
+                    }
+                }
+                
+                /*Добавляет предмет в лист предметов когда обошел все дочерние тэги*/
+                if ("Events".equals(subjectChildNode.getNodeName())) {
+=======
 
                 if ("numberInTable".equals(subjectChildNode.getNodeName())) {
+>>>>>>> cc6cc3362a3da2dc021a9a9ebcb8a4f8ecc43a61
                     subjectList.add(subject);
                 }
 
@@ -141,9 +197,10 @@ public final class ParseXML {
                     
                     /*УЧЕСТЬ В ДАЛЬНЕЙШЕМ ЧТО В ЛИСТЕ МОЖЕТ БЫТЬ НЕСКОЛЬКО ВРЕМЕН */
                     
-                    date.setTextContent(currentTime.getDate().getDate() + "." + (currentTime.getDate().getMonth() + 1) + "." + (currentTime.getDate().getYear() + 1900));
-                    Element startTime = document.createElement("startTime");
-                    startTime.setTextContent(currentTime.getDate().getHours() + ":" + currentTime.getDate().getMinutes());
+                    date.setTextContent(currentTime.getDate().getDate() + "." + (currentTime.getDate().getMonth() + 1) + "." + (currentTime.getDate().getYear() + 1900)
+                            + "." + currentTime.getDate().getHours() + "." + currentTime.getDate().getMinutes());
+//                    Element startTime = document.createElement("startTime");
+//                    startTime.setTextContent(currentTime.getDate().getHours() + ":" + currentTime.getDate().getMinutes());
                     
                     /*УЧЕСТЬ ДОБАВЛЕНИЕ ТЭГОВ endTime и interval*/
                     
@@ -151,7 +208,7 @@ public final class ParseXML {
                     event.appendChild(header);
                     event.appendChild(content);
                     event.appendChild(date);
-                    event.appendChild(startTime);
+//                    event.appendChild(startTime);
                     child.appendChild(event);
                 }
             }
