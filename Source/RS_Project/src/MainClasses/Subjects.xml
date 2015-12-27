@@ -6,11 +6,7 @@
 <housing>1</housing>
 <dayOfWeek>Monday</dayOfWeek>
 <numberInTable>1</numberInTable>
-<<<<<<< HEAD
 <Events><Event><type>SINGLE</type><header>Новое событие</header><content>Текст события</content><date>24.12.2015</date><startTime>21:59</startTime></Event><Event><type>SINGLE</type><header>Тестовое событие</header><content>Проверка работоспособности</content><date>27.12.2015</date><startTime>15:40</startTime></Event></Events>
-=======
-<Events><Event><type>SINGLE</type><header>KEKEKE</header><content>HAHAHA</content><date>25.12.2015.18.8</date></Event></Events>
->>>>>>> fa95299d2f29613790d1219915dedb4db814fb07
 </Subject>
 <Subject>
 <subjectName>Физика</subjectName>
@@ -19,6 +15,6 @@
 <housing>2</housing>
 <dayOfWeek>Monday</dayOfWeek>
 <numberInTable>2</numberInTable>
-<Events/>
+<Events></Events>
 </Subject>
 </Subjects>
