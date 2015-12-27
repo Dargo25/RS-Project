@@ -65,7 +65,7 @@ public class frmAddSubjectEvent extends Application{
     
     static Stage ps;
     
-    Label lbl = new Label("pidr");
+    Label lbl = new Label();
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -120,9 +120,13 @@ public class frmAddSubjectEvent extends Application{
          //userTime.setDate(date);
             
         String a = String.valueOf(day);
-         lbl = new Label(a);
+         lbl = new Label("Задание добавленно");
+
+         
             try {
                 start(primaryStage);
+                
+                
             } catch (Exception ex) {
                 Logger.getLogger(frmAddSubjectEvent.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -228,6 +232,8 @@ public class frmAddSubjectEvent extends Application{
                     Logger.getLogger(frmAddSubjectEvent.class.getName()).log(Level.SEVERE, null, ex);
                 }
     }
+    
+    
     
     
     

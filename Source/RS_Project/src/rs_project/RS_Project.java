@@ -28,6 +28,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.animation.ScaleTransition;
 import javafx.event.Event;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -35,6 +36,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.util.Duration;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.xml.parsers.ParserConfigurationException;
@@ -45,7 +47,7 @@ import org.xml.sax.SAXException;
  *
  * @author Егор
  */
-public class RS_Project extends Application {
+    public class RS_Project extends Application {
     private static ArrayList<Subject> subjectList = new ArrayList<>();
     Timer timer;
     static double firstSubjectPosition = 100;
@@ -53,6 +55,13 @@ public class RS_Project extends Application {
     GridPane grid;
     DaysOfWeek CurrentDay = DaysOfWeek.MONDAY;
     ArrayList<Subject> CurrentSbj;
+    ArrayList<EventImage> imgEvent;
+    
+    //public static boolean isClosed;
+    
+    private static final double SCALE = 1.3; // коэффициент увеличения
+    private static final double DURATION = 300; // время анимации в мс
+    
     
     @Override
     public void start(Stage primaryStage) {
@@ -62,6 +71,7 @@ public class RS_Project extends Application {
         ParseXML.scanXml(subjectList);
         CurrentSbj = LoadSubjects(subjectList, CurrentDay);
         ArrayList<Label> sbjName = WriteSubjectsToLabels(CurrentSbj);
+        imgEvent = AddEventsSumbol(CurrentSbj);
                 
 
 
@@ -82,16 +92,13 @@ public class RS_Project extends Application {
         Label lblToday = new Label(CurrentDay.toString());
         
         
-        ImageView imgNext;
-        
-        imgNext = new ImageView("images/btnNext.png");
+        ImageView imgEvent;
 
 
         grid = CreateGrid(sbjName);
         grid.add(lblToday,3,0);
         grid.add(btnNext,6, 7);
         grid.add(btnPrevious, 2, 7);
-        grid.add(imgNext,2,8);
         Scene scene = new Scene(grid, 300, 250);
         primaryStage.setScene(scene);
         primaryStage.show();
@@ -138,17 +145,40 @@ public class RS_Project extends Application {
     }
     private  ArrayList<Label> WriteSubjectsToLabels (ArrayList<Subject> Subjects){
         ArrayList <Label> labelList = new ArrayList<>();
-        double counter = firstSubjectPosition;
+        //double counter = firstSubjectPosition;
         for (int i = 0;i<Subjects.size();i++){
             
             Label tempLabel = new Label(this.GetLabelName(Subjects.get(i)));
-            tempLabel.setLayoutX(counter);
-            tempLabel.setLayoutY(200);
+            //tempLabel.setLayoutX(counter);
+            //tempLabel.setLayoutY(200);
             labelList.add(tempLabel);
             addTranslateListener(tempLabel);
-            counter++;
+            //counter++;
         }
         return labelList;
+    }
+    
+    public  void Refresh()
+    {
+        start(new Stage());
+    }
+    
+    private ArrayList<EventImage> AddEventsSumbol(ArrayList<Subject> Subjects){
+        ArrayList<EventImage> imgList = new ArrayList<>();
+        for(int i = 0; i<Subjects.size();i++){
+            if (Subjects.get(i).getEventList().size()!=0){
+                ImageView imgEvent = new ImageView("images/event.png");
+                imgEvent.setFitHeight(20);
+                imgEvent.setFitWidth(20);
+                
+                EventImage userIME=new EventImage();
+                userIME.SetImg(imgEvent);
+                userIME.SetNumber(i);
+                
+                imgList.add(userIME);
+            }
+        }
+        return imgList;
     }
     
     private String GetLabelName(Subject sbj){
@@ -163,14 +193,37 @@ public class RS_Project extends Application {
     
     private GridPane CreateGrid (ArrayList<Label> sbjName){
         GridPane grid = new GridPane();
+        int count = 0;
         grid.setAlignment(Pos.CENTER);
         grid.setHgap(10);
         grid.setVgap(10);
         for (int i = 0; i<sbjName.size();i++){
         grid.add(sbjName.get(i), 3, i+1);
+        
+//        int n = ParseLabel(sbjName.get(i));
+//        Subject sbj = GetSubjectByNumber(n);
+        if (count<imgEvent.size())
+        {
+        if (imgEvent.get(count).GetNumber()==i){
+            grid.add(imgEvent.get(count).GetImg(), 4,i+1);
+            count++;
+        }
+        }
+        
+        
+        
+//        if (sbj.getEventList().size()!=0){
+//            grid.add(imgEvent.get(count), 4,i+1);
+//            count++;
+//        }
+        
         }
         return grid;
     }
+    
+
+            
+    
     private DaysOfWeek GetNextDay(DaysOfWeek cDay){
         if (cDay==DaysOfWeek.MONDAY){
             return DaysOfWeek.TUESDAY;
@@ -241,6 +294,13 @@ public class RS_Project extends Application {
             return null;
         }
         
+        private int ParseLabel(Label lbl){
+        String sbjInfo = lbl.getText();
+        String substring = sbjInfo.substring(0, 1);
+        int number = Integer.parseInt(substring);
+        return number;
+        }
+        
         
         
         
@@ -255,13 +315,19 @@ public class RS_Project extends Application {
 //       fm.start(new Stage());
 //      //Main.this.node = node;   // сохраняем ссылку на объект 
 //    } 
+       
+       //------------_____УДАЛИ ПОТОМ
+    
+       
+       //------------_____УДАЛИ ПОТОМ
 
        @Override
        public void handle(Event event) {
            //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-        String sbjInfo = node.getText();
-        String substring = sbjInfo.substring(0, 1);
-        int number = Integer.parseInt(substring);
+//        String sbjInfo = node.getText();
+//        String substring = sbjInfo.substring(0, 1);
+//        int number = Integer.parseInt(substring);
+        int number = ParseLabel(node);
         frmAddSubjectEvent fm = new frmAddSubjectEvent();
         fm.SetSubject(GetSubjectByNumber(number));
         //fm.SetSubject(null);
@@ -271,6 +337,8 @@ public class RS_Project extends Application {
            Logger.getLogger(RS_Project.class.getName()).log(Level.SEVERE, null, ex);
        }
        }
+       
+       
     });
    }
 }
