@@ -160,8 +160,8 @@ public class frmAddSubjectEvent extends Application{
     private void CreateTimer(SubjectEvent event) {
         Timer timer = new Timer();
         
-        TimerTask task;
-        timer.scheduleAtFixedRate(new TimerTask() {
+        //TimerTask task;
+        timer.schedule(new TimerTask() {
             
             @Override
             public void run() {
@@ -169,7 +169,7 @@ public class frmAddSubjectEvent extends Application{
                 //System.out.println(event.getHeader() + "\n\t" + event.getContent());
                 //форма, при срабатывании таймера
                 WatchEvent(event);
-                timer.cancel();
+                //timer.cancel();
                 //Scene sc = new Scene(lbl);
                 //Stage ps = new Stage();
                 //ps.setScene(sc);
@@ -177,7 +177,7 @@ public class frmAddSubjectEvent extends Application{
                 });
 
             }
-        }, 1000,1000);
+        }, event.getTimeList().get(event.getTimeList().size() - 1).getDate());
     
         
         //timer.schedule(task, event.getTimeList().get(event.getTimeList().size() - 1).getDate());
