@@ -6,7 +6,7 @@
 <housing>1</housing>
 <dayOfWeek>Monday</dayOfWeek>
 <numberInTable>1</numberInTable>
-<Events><Event><type>SINGLE</type><header>Новое событие</header><content>Текст события</content><date>25.12.2015</date><startTime>18:8</startTime></Event></Events>
+<Events><Event><type>SINGLE</type><header>KEKEKE</header><content>HAHAHA</content><date>25.12.2015.18.8</date></Event></Events>
 </Subject>
 <Subject>
 <subjectName>Физика</subjectName>
