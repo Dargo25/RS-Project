@@ -70,7 +70,8 @@ public class frmAddSubjectEvent extends Application{
     @Override
     public void start(Stage primaryStage) throws Exception {
         ps = primaryStage;
-        userSubject = new Subject();
+        //userSubject = new Subject();
+        
         primaryStage.setTitle("Добавить событие");
         GridPane root = CreateGrid();
         root.add(lbl,0,7);
@@ -99,6 +100,7 @@ public class frmAddSubjectEvent extends Application{
         userEvent.getTimeList().add(userTime);
         
         userSubject.getEventList().add(userEvent);
+            WriteEventToXML(userSubject);
         //ПОКА РАБОТАЕМ С ТЕСТОВЫМ ПРЕДМЕТОМ
 //            try {
 //                ParseXML.AddNewEventToXML(userSubject);
@@ -132,6 +134,21 @@ public class frmAddSubjectEvent extends Application{
 //        Scene scn = new Scene(root,350,150);
 //        primaryStage.setScene(scn);
 //        primaryStage.show();   
+    }
+    
+    private void WriteEventToXML(Subject userSubject){
+                    try {
+                ParseXML.AddNewEventToXML(userSubject);
+                //Date date = Date.from(instant);
+            } catch (SAXException ex) {
+                Logger.getLogger(frmAddSubjectEvent.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(frmAddSubjectEvent.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ParserConfigurationException ex) {
+                Logger.getLogger(frmAddSubjectEvent.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (TransformerException ex) {
+                Logger.getLogger(frmAddSubjectEvent.class.getName()).log(Level.SEVERE, null, ex);
+            }
     }
     
     private void CreateTimer(SubjectEvent event) {

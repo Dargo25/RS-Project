@@ -49,10 +49,10 @@ public class RS_Project extends Application {
     private static ArrayList<Subject> subjectList = new ArrayList<>();
     Timer timer;
     static double firstSubjectPosition = 100;
-    ImageView imgNext;
+    //ImageView imgNext;
     GridPane grid;
     DaysOfWeek CurrentDay = DaysOfWeek.MONDAY;
-    
+    ArrayList<Subject> CurrentSbj;
     
     @Override
     public void start(Stage primaryStage) {
@@ -60,7 +60,7 @@ public class RS_Project extends Application {
 
         subjectList.clear();
         ParseXML.scanXml(subjectList);
-        ArrayList<Subject> CurrentSbj = LoadSubjects(subjectList, CurrentDay);
+        CurrentSbj = LoadSubjects(subjectList, CurrentDay);
         ArrayList<Label> sbjName = WriteSubjectsToLabels(CurrentSbj);
                 
 
@@ -80,14 +80,18 @@ public class RS_Project extends Application {
         btnPrevious.setText("Previous Day");
         
         Label lblToday = new Label(CurrentDay.toString());
-        //imgNext = new ImageView(new Image(RS_Project.class.getResourceAsStream("images/btnNext.png")));
-        //JLabel imgNex = new JLabel(new ImageIcon("images/btnNext.png"));
+        
+        
+        ImageView imgNext;
+        
+        imgNext = new ImageView("images/btnNext.png");
 
 
         grid = CreateGrid(sbjName);
         grid.add(lblToday,3,0);
         grid.add(btnNext,6, 7);
         grid.add(btnPrevious, 2, 7);
+        grid.add(imgNext,2,8);
         Scene scene = new Scene(grid, 300, 250);
         primaryStage.setScene(scene);
         primaryStage.show();
@@ -111,12 +115,7 @@ public class RS_Project extends Application {
                 
                 CurrentDay = GetPreviousDay(CurrentDay);
                 start(primaryStage);
-                frmAddSubjectEvent fm = new frmAddSubjectEvent();
-                try {
-                    fm.start(primaryStage);
-                } catch (Exception ex) {
-                    Logger.getLogger(RS_Project.class.getName()).log(Level.SEVERE, null, ex);
-                }
+              
             }
         });
     }
@@ -141,7 +140,8 @@ public class RS_Project extends Application {
         ArrayList <Label> labelList = new ArrayList<>();
         double counter = firstSubjectPosition;
         for (int i = 0;i<Subjects.size();i++){
-            Label tempLabel = new Label(Subjects.get(i).getSubjectName());
+            
+            Label tempLabel = new Label(this.GetLabelName(Subjects.get(i)));
             tempLabel.setLayoutX(counter);
             tempLabel.setLayoutY(200);
             labelList.add(tempLabel);
@@ -150,6 +150,17 @@ public class RS_Project extends Application {
         }
         return labelList;
     }
+    
+    private String GetLabelName(Subject sbj){
+            String number = String.valueOf(sbj.getNumberInTable());
+            number +=". ";
+            String name = sbj.getSubjectName();
+            name +="\n";
+            String lect = sbj.getLecturerName();
+            String result = number+name+lect;
+            return result;
+    }
+    
     private GridPane CreateGrid (ArrayList<Label> sbjName){
         GridPane grid = new GridPane();
         grid.setAlignment(Pos.CENTER);
@@ -219,12 +230,23 @@ public class RS_Project extends Application {
         }
         return null;
     }
+      
+        private Subject GetSubjectByNumber(int number){
+            for (Subject sbj: CurrentSbj){
+                if (sbj.getNumberInTable()==number){
+                    return sbj;
+                }
+                    
+            }
+            return null;
+        }
+        
         
         
         
     //Что-то странное    
 
-   private void addTranslateListener(final Node node) { 
+   private void addTranslateListener(final Label node) { 
    node.setOnMousePressed(new EventHandler() { 
               
 //   public void handle(MouseEvent mouseEvent) throws Exception { 
@@ -237,7 +259,11 @@ public class RS_Project extends Application {
        @Override
        public void handle(Event event) {
            //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String sbjInfo = node.getText();
+        String substring = sbjInfo.substring(0, 1);
+        int number = Integer.parseInt(substring);
         frmAddSubjectEvent fm = new frmAddSubjectEvent();
+        fm.SetSubject(GetSubjectByNumber(number));
         //fm.SetSubject(null);
        try {
            fm.start(new Stage());
