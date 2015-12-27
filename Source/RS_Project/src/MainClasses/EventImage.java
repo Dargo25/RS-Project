@@ -5,6 +5,8 @@
  */
 package MainClasses;
 
+import java.util.ArrayList;
+import java.util.List;
 import javafx.scene.image.ImageView;
 
 /**
@@ -14,6 +16,7 @@ import javafx.scene.image.ImageView;
 public class EventImage {
     ImageView userImg;
     int number;
+    private ArrayList<SubjectEvent> eventList;
     
     public void SetImg(ImageView img)
     {
@@ -31,5 +34,13 @@ public class EventImage {
     
     public int GetNumber(){
         return number;
+    }
+    
+    public void SetEvents (ArrayList<SubjectEvent> eList)
+    {
+        eventList = eList;
+    }
+    public List<SubjectEvent> GetEvents(){
+        return eventList;
     }
 }

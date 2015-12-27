@@ -29,6 +29,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.application.Platform;
 import javafx.event.Event;
 import javafx.geometry.Pos;
 import javafx.scene.control.DatePicker;
@@ -64,6 +65,7 @@ public class frmAddSubjectEvent extends Application{
     TextField txtMinutes;
     
     static Stage ps;
+    RS_Project rsProj;
     
     Label lbl = new Label();
 
@@ -121,7 +123,7 @@ public class frmAddSubjectEvent extends Application{
             
         String a = String.valueOf(day);
          lbl = new Label("Задание добавленно");
-
+         rsProj.Refresh();
          
             try {
                 start(primaryStage);
@@ -159,18 +161,26 @@ public class frmAddSubjectEvent extends Application{
         Timer timer = new Timer();
         
         TimerTask task;
-        task = new TimerTask() {
+        timer.scheduleAtFixedRate(new TimerTask() {
             
             @Override
             public void run() {
+                Platform.runLater(() -> {
                 //System.out.println(event.getHeader() + "\n\t" + event.getContent());
                 //форма, при срабатывании таймера
-               // WatchEvent(event);
+                WatchEvent(event);
+                timer.cancel();
+                //Scene sc = new Scene(lbl);
+                //Stage ps = new Stage();
+                //ps.setScene(sc);
+                //ps.show();
+                });
 
             }
-        };
+        }, 1000,1000);
+    
         
-        timer.schedule(task, event.getTimeList().get(event.getTimeList().size() - 1).getDate());
+        //timer.schedule(task, event.getTimeList().get(event.getTimeList().size() - 1).getDate());
     }
     
     private GridPane CreateGrid() throws ParseException{
@@ -232,9 +242,12 @@ public class frmAddSubjectEvent extends Application{
                     Logger.getLogger(frmAddSubjectEvent.class.getName()).log(Level.SEVERE, null, ex);
                 }
     }
+    public void SetParent (RS_Project prj){
+        rsProj = prj;
+    }
     
     
-    
+
     
     
     

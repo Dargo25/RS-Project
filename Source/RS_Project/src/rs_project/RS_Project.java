@@ -48,7 +48,7 @@ import org.xml.sax.SAXException;
  * @author Егор
  */
     public class RS_Project extends Application {
-    private static ArrayList<Subject> subjectList = new ArrayList<>();
+    private ArrayList<Subject> subjectList = new ArrayList<>();
     Timer timer;
     static double firstSubjectPosition = 100;
     //ImageView imgNext;
@@ -59,21 +59,20 @@ import org.xml.sax.SAXException;
     
     //public static boolean isClosed;
     
-    private static final double SCALE = 1.3; // коэффициент увеличения
-    private static final double DURATION = 300; // время анимации в мс
-    
+    frmAddSubjectEvent fm = new frmAddSubjectEvent();
+    Stage pm;
     
     @Override
     public void start(Stage primaryStage) {
         primaryStage.setTitle("RS Project");
-
+        pm = primaryStage;
         subjectList.clear();
         ParseXML.scanXml(subjectList);
         CurrentSbj = LoadSubjects(subjectList, CurrentDay);
         ArrayList<Label> sbjName = WriteSubjectsToLabels(CurrentSbj);
         imgEvent = AddEventsSumbol(CurrentSbj);
                 
-
+        fm.SetParent(this);
 
         
         //Pane root = new Pane();
@@ -92,7 +91,7 @@ import org.xml.sax.SAXException;
         Label lblToday = new Label(CurrentDay.toString());
         
         
-        ImageView imgEvent;
+        //ImageView imgEvent;
 
 
         grid = CreateGrid(sbjName);
@@ -160,13 +159,13 @@ import org.xml.sax.SAXException;
     
     public  void Refresh()
     {
-        start(new Stage());
+        start(this.pm);
     }
     
     private ArrayList<EventImage> AddEventsSumbol(ArrayList<Subject> Subjects){
         ArrayList<EventImage> imgList = new ArrayList<>();
         for(int i = 0; i<Subjects.size();i++){
-            if (Subjects.get(i).getEventList().size()!=0){
+            if (!Subjects.get(i).getEventList().isEmpty()){
                 ImageView imgEvent = new ImageView("images/event.png");
                 imgEvent.setFitHeight(20);
                 imgEvent.setFitWidth(20);
@@ -174,6 +173,7 @@ import org.xml.sax.SAXException;
                 EventImage userIME=new EventImage();
                 userIME.SetImg(imgEvent);
                 userIME.SetNumber(i);
+                userIME.SetEvents((ArrayList<SubjectEvent>) Subjects.get(i).getEventList());
                 
                 imgList.add(userIME);
             }
@@ -206,6 +206,7 @@ import org.xml.sax.SAXException;
         {
         if (imgEvent.get(count).GetNumber()==i){
             grid.add(imgEvent.get(count).GetImg(), 4,i+1);
+            addImageClick(imgEvent.get(i));
             count++;
         }
         }
@@ -308,18 +309,7 @@ import org.xml.sax.SAXException;
 
    private void addTranslateListener(final Label node) { 
    node.setOnMousePressed(new EventHandler() { 
-              
-//   public void handle(MouseEvent mouseEvent) throws Exception { 
-//      
-//       frmAddSubjectEvent fm = new frmAddSubjectEvent();
-//       fm.start(new Stage());
-//      //Main.this.node = node;   // сохраняем ссылку на объект 
-//    } 
-       
-       //------------_____УДАЛИ ПОТОМ
-    
-       
-       //------------_____УДАЛИ ПОТОМ
+
 
        @Override
        public void handle(Event event) {
@@ -328,8 +318,9 @@ import org.xml.sax.SAXException;
 //        String substring = sbjInfo.substring(0, 1);
 //        int number = Integer.parseInt(substring);
         int number = ParseLabel(node);
-        frmAddSubjectEvent fm = new frmAddSubjectEvent();
+        //frmAddSubjectEvent fm = new frmAddSubjectEvent();
         fm.SetSubject(GetSubjectByNumber(number));
+        //fm.SetParent(this);
         //fm.SetSubject(null);
        try {
            fm.start(new Stage());
@@ -341,6 +332,27 @@ import org.xml.sax.SAXException;
        
     });
    }
+   
+      private void addImageClick(final EventImage node) { 
+   node.GetImg().setOnMousePressed(new EventHandler() { 
+
+
+       @Override
+       public void handle(Event event) {
+           frmEventInfo fm = new frmEventInfo();
+           fm.SetEvents((ArrayList<SubjectEvent>) node.GetEvents());
+           try {
+               fm.start(new Stage());
+           } catch (Exception ex) {
+               Logger.getLogger(RS_Project.class.getName()).log(Level.SEVERE, null, ex);
+           }
+
+       }
+       
+       
+    });
+   }
+   
 }
     
 
