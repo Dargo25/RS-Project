@@ -91,6 +91,7 @@ public final class ParseXML {
                         subject.setDay(DaysOfWeek.SATURDAY);
                     }
                 }
+<<<<<<< HEAD
                 if ("numberInTable".equals(subjectChildNode.getNodeName())) {
                     subject.setNumberInTable(Integer.parseInt(subjectChildNode.getTextContent()));
                 }
@@ -142,6 +143,10 @@ public final class ParseXML {
                 
                 /*Добавляет предмет в лист предметов когда обошел все дочерние тэги*/
                 if ("Events".equals(subjectChildNode.getNodeName())) {
+=======
+
+                if ("numberInTable".equals(subjectChildNode.getNodeName())) {
+>>>>>>> cc6cc3362a3da2dc021a9a9ebcb8a4f8ecc43a61
                     subjectList.add(subject);
                 }
 

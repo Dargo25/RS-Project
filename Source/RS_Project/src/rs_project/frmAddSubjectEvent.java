@@ -63,10 +63,14 @@ public class frmAddSubjectEvent extends Application{
     TextField txtHour;
     TextField txtMinutes;
     
+    static Stage ps;
+    
     Label lbl = new Label("pidr");
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+        ps = primaryStage;
+        userSubject = new Subject();
         primaryStage.setTitle("Добавить событие");
         GridPane root = CreateGrid();
         root.add(lbl,0,7);
@@ -95,19 +99,21 @@ public class frmAddSubjectEvent extends Application{
         userEvent.getTimeList().add(userTime);
         
         userSubject.getEventList().add(userEvent);
-            try {
-                ParseXML.AddNewEventToXML(userSubject);
-                //Date date = Date.from(instant);
-            } catch (SAXException ex) {
-                Logger.getLogger(frmAddSubjectEvent.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (IOException ex) {
-                Logger.getLogger(frmAddSubjectEvent.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (ParserConfigurationException ex) {
-                Logger.getLogger(frmAddSubjectEvent.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (TransformerException ex) {
-                Logger.getLogger(frmAddSubjectEvent.class.getName()).log(Level.SEVERE, null, ex);
-            }
-         
+        //ПОКА РАБОТАЕМ С ТЕСТОВЫМ ПРЕДМЕТОМ
+//            try {
+//                ParseXML.AddNewEventToXML(userSubject);
+//                //Date date = Date.from(instant);
+//            } catch (SAXException ex) {
+//                Logger.getLogger(frmAddSubjectEvent.class.getName()).log(Level.SEVERE, null, ex);
+//            } catch (IOException ex) {
+//                Logger.getLogger(frmAddSubjectEvent.class.getName()).log(Level.SEVERE, null, ex);
+//            } catch (ParserConfigurationException ex) {
+//                Logger.getLogger(frmAddSubjectEvent.class.getName()).log(Level.SEVERE, null, ex);
+//            } catch (TransformerException ex) {
+//                Logger.getLogger(frmAddSubjectEvent.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+//         
+            
             CreateTimer(userEvent);
          //userTime.setDate(date);
             
@@ -128,15 +134,18 @@ public class frmAddSubjectEvent extends Application{
 //        primaryStage.show();   
     }
     
-    private static void CreateTimer(SubjectEvent event) {
+    private void CreateTimer(SubjectEvent event) {
         Timer timer = new Timer();
         
-        TimerTask task = new TimerTask() {
-
+        TimerTask task;
+        task = new TimerTask() {
+            
             @Override
             public void run() {
                 //System.out.println(event.getHeader() + "\n\t" + event.getContent());
                 //форма, при срабатывании таймера
+               // WatchEvent(event);
+
             }
         };
         
@@ -191,6 +200,16 @@ public class frmAddSubjectEvent extends Application{
     }
     public void SetSubject(Subject sbj){
         userSubject = sbj;
+    }
+    private void WatchEvent(SubjectEvent event){
+                frmEventMessage fm = new frmEventMessage();
+                fm.SetEventName(event.getHeader());
+                fm.SetEventContent(event.getContent());
+                try {
+                    fm.start(new Stage());
+                } catch (Exception ex) {
+                    Logger.getLogger(frmAddSubjectEvent.class.getName()).log(Level.SEVERE, null, ex);
+                }
     }
     
     
