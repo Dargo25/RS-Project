@@ -15,6 +15,6 @@
 <housing>2</housing>
 <dayOfWeek>Monday</dayOfWeek>
 <numberInTable>2</numberInTable>
-<Events></Events>
+<Events><Event><type>SINGLE</type><header>11</header><content>11</content><date>28.12.2015.9.9</date></Event><Event><type>SINGLE</type><header>22</header><content>22</content><date>30.12.2015.11.11</date></Event></Events>
 </Subject>
 </Subjects>

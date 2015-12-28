@@ -99,7 +99,11 @@ public class frmAddSubjectEvent extends Application{
         int minutes = Integer.parseInt(txtMinutes.getText());
         EventTime userTime = new EventTime();
         userTime.setDate(new Date(year-1900, month-1, day, hour, minutes));
-        userEvent.getTimeList().add(userTime);
+        //userEvent.getTimeList().add(userTime);
+        
+        ArrayList<EventTime> listEV = new ArrayList<EventTime>();
+        listEV.add(userTime);
+        userEvent.setTimeList(listEV);
         
         userSubject.getEventList().add(userEvent);
             WriteEventToXML(userSubject);
