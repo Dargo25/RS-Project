@@ -68,6 +68,11 @@ public class frmAddSubjectEvent extends Application{
     RS_Project rsProj;
     
     Label lbl = new Label();
+    
+    
+    SubjectEvent testEv;
+    
+    
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -121,8 +126,9 @@ public class frmAddSubjectEvent extends Application{
 //                Logger.getLogger(frmAddSubjectEvent.class.getName()).log(Level.SEVERE, null, ex);
 //            }
 //         
+            testEv = userEvent;
+
             
-            CreateTimer(userEvent);
          //userTime.setDate(date);
             
         String a = String.valueOf(day);
@@ -163,7 +169,7 @@ public class frmAddSubjectEvent extends Application{
     
     private void CreateTimer(SubjectEvent event) {
         Timer timer = new Timer();
-        
+        SubjectEvent ev = event;
         //TimerTask task;
         timer.schedule(new TimerTask() {
             
@@ -172,7 +178,7 @@ public class frmAddSubjectEvent extends Application{
                 Platform.runLater(() -> {
                 //System.out.println(event.getHeader() + "\n\t" + event.getContent());
                 //форма, при срабатывании таймера
-                WatchEvent(event);
+                WatchEvent();
                 //timer.cancel();
                 //Scene sc = new Scene(lbl);
                 //Stage ps = new Stage();
@@ -181,7 +187,7 @@ public class frmAddSubjectEvent extends Application{
                 });
 
             }
-        }, event.getTimeList().get(event.getTimeList().size() - 1).getDate());
+        }, testEv.getTimeList().get(ev.getTimeList().size() - 1).getDate());
     
         
         //timer.schedule(task, event.getTimeList().get(event.getTimeList().size() - 1).getDate());
@@ -236,10 +242,10 @@ public class frmAddSubjectEvent extends Application{
     public void SetSubject(Subject sbj){
         userSubject = sbj;
     }
-    private void WatchEvent(SubjectEvent event){
+    private void WatchEvent(){
                 frmEventMessage fm = new frmEventMessage();
-                fm.SetEventName(event.getHeader());
-                fm.SetEventContent(event.getContent());
+                fm.SetEventName(testEv.getHeader());
+                fm.SetEventContent(testEv.getContent());
                 try {
                     fm.start(new Stage());
                 } catch (Exception ex) {

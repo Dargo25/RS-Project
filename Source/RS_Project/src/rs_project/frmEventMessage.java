@@ -70,8 +70,10 @@ public class frmEventMessage extends Application {
 
     private GridPane CreateGrid() {
     GridPane root = new GridPane();
+    lblEventName.setFont(Font.font("Tahoma", FontWeight.NORMAL, 15));
+    lblEventContent.setFont(Font.font("Tahoma", FontWeight.NORMAL, 12));
     root.add(lblEventName, 0, 0, 2, 1);
-    root.add(lblEventContent, 1,0);
+    root.add(lblEventContent, 2,2);
     return root;
     }
     
