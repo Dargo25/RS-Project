@@ -6,7 +6,11 @@
 <housing>1</housing>
 <dayOfWeek>Monday</dayOfWeek>
 <numberInTable>1</numberInTable>
+<<<<<<< HEAD
 <Events></Events>
+=======
+<Events><Event><type>SINGLE</type><header>11</header><content>11</content><date>30.12.2015.11.11</date></Event><Event><type>SINGLE</type><header>11</header><content>11</content><date>31.12.2015.11.11</date></Event><Event><type>SINGLE</type><header>11</header><content>11</content><date>31.12.2015.11.11</date></Event><Event><type>SINGLE</type><header>11</header><content>11</content><date>31.12.2015.11.11</date></Event><Event><type>SINGLE</type><header>11</header><content>11</content><date>31.12.2015.11.11</date></Event><Event><type>SINGLE</type><header>11</header><content>11</content><date>31.12.2015.11.11</date></Event><Event><type>SINGLE</type><header>11</header><content>11</content><date>31.12.2015.11.11</date></Event><Event><type>SINGLE</type><header>11</header><content>11</content><date>31.12.2015.11.11</date></Event><Event><type>SINGLE</type><header>11</header><content>11</content><date>31.12.2015.11.11</date></Event></Events>
+>>>>>>> 2c05bbffcbd9d701754ebb423e3351c0b5bace9c
 </Subject>
 <Subject>
 <subjectName>Физика</subjectName>
