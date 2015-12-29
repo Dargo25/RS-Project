@@ -36,6 +36,8 @@ import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.util.Duration;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -150,6 +152,7 @@ import org.xml.sax.SAXException;
             Label tempLabel = new Label(this.GetLabelName(Subjects.get(i)));
             //tempLabel.setLayoutX(counter);
             //tempLabel.setLayoutY(200);
+            tempLabel.setFont(Font.font("Tahoma", FontWeight.NORMAL, 12));
             labelList.add(tempLabel);
             addTranslateListener(tempLabel);
             //counter++;
@@ -331,6 +334,23 @@ import org.xml.sax.SAXException;
        
        
     });
+   
+   node.setOnMouseMoved(new EventHandler(){
+   @Override
+       public void handle(Event event) {
+       node.setFont(Font.font("Tahoma", FontWeight.NORMAL, 14));
+   }
+       
+   });
+   
+     node.setOnMouseExited(new EventHandler(){
+   @Override
+       public void handle(Event event) {
+       node.setFont(Font.font("Tahoma", FontWeight.NORMAL, 12));
+   }
+       
+   });
+   
    }
    
       private void addImageClick(final EventImage node) { 

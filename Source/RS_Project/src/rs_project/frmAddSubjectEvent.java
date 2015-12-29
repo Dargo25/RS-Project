@@ -68,6 +68,11 @@ public class frmAddSubjectEvent extends Application{
     RS_Project rsProj;
     
     Label lbl = new Label();
+    
+    
+    SubjectEvent testEv;
+    
+    
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -123,8 +128,9 @@ public class frmAddSubjectEvent extends Application{
 //                Logger.getLogger(frmAddSubjectEvent.class.getName()).log(Level.SEVERE, null, ex);
 //            }
 //         
+            testEv = userEvent;
+
             
-            CreateTimer(userEvent);
          //userTime.setDate(date);
             
         String a = String.valueOf(day);
@@ -165,7 +171,12 @@ public class frmAddSubjectEvent extends Application{
     
     private void CreateTimer(SubjectEvent event) {
         Timer timer = new Timer();
+<<<<<<< HEAD
         
+=======
+        SubjectEvent ev = event;
+        //TimerTask task;
+>>>>>>> a2543816e6272bb561f7c62bc64ebb4a96f2e3a8
         timer.schedule(new TimerTask() {
             
             @Override
@@ -173,7 +184,7 @@ public class frmAddSubjectEvent extends Application{
                 Platform.runLater(() -> {
                 //System.out.println(event.getHeader() + "\n\t" + event.getContent());
                 //форма, при срабатывании таймера
-                WatchEvent(event);
+                WatchEvent();
                 //timer.cancel();
                 //Scene sc = new Scene(lbl);
                 //Stage ps = new Stage();
@@ -182,8 +193,12 @@ public class frmAddSubjectEvent extends Application{
                 });
 
             }
+<<<<<<< HEAD
 //        }, event.getTimeList().get(event.getTimeList().size() - 1).getDate());
         }, event.getTime().getDate());
+=======
+        }, testEv.getTimeList().get(ev.getTimeList().size() - 1).getDate());
+>>>>>>> a2543816e6272bb561f7c62bc64ebb4a96f2e3a8
     
         
 //        timer.schedule(task, event.getTime().getDate());
@@ -238,10 +253,10 @@ public class frmAddSubjectEvent extends Application{
     public void SetSubject(Subject sbj){
         userSubject = sbj;
     }
-    private void WatchEvent(SubjectEvent event){
+    private void WatchEvent(){
                 frmEventMessage fm = new frmEventMessage();
-                fm.SetEventName(event.getHeader());
-                fm.SetEventContent(event.getContent());
+                fm.SetEventName(testEv.getHeader());
+                fm.SetEventContent(testEv.getContent());
                 try {
                     fm.start(new Stage());
                 } catch (Exception ex) {

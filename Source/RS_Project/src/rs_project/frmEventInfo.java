@@ -33,9 +33,12 @@ import javafx.event.Event;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.util.Duration;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -50,47 +53,135 @@ import org.xml.sax.SAXException;
 public class frmEventInfo extends Application {
 
     ArrayList<SubjectEvent> events;
+    int currentEventNumber;
+    
+    Button btnNext;
+    Button btnPrevious;
     
     @Override
     public void start(Stage primaryStage) throws Exception {
         
         primaryStage.setTitle("Задания");
         
-        ArrayList<Label> lblList=CreateLabels(events);
-        GridPane grid = CreateGrid(lblList);
+        SubjectEvent currentEvent = events.get(currentEventNumber);
+        Label lblInfo=CreateLabels(currentEvent);
+        
+        btnNext = new Button();
+        btnNext.setText("Next Event");
+        
+        btnPrevious = new Button();
+        btnPrevious.setText("Previous Event");
+        
+        GridPane grid = CreateGrid(lblInfo);
+        ScrollPane sp= new ScrollPane(grid);
+        //grid.add(sp, 5, 5);
         //GridPane grid = new GridPane();
         Scene scene = new Scene(grid, 300, 250);
         primaryStage.setScene(scene);
         primaryStage.show();
+        
+        //ScrollPane sp= new ScrollPane();
+        
+        
+
+            
+            
+            btnPrevious.setOnAction(new EventHandler<ActionEvent>() {
+            
+            @Override
+            public void handle(ActionEvent event) {
+                grid.getChildren().clear();
+                if (currentEventNumber!=0){
+                 currentEventNumber--;   
+                }
+                else{
+                    currentEventNumber = events.size()-1;
+                }
+                try {
+                    start(primaryStage);
+                } catch (Exception ex) {
+                    Logger.getLogger(frmEventInfo.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
+    
         
     }
     public void SetEvents(ArrayList<SubjectEvent> ev){
         events = ev;
     }
     
-    private ArrayList<Label> CreateLabels(ArrayList<SubjectEvent> events){
-        ArrayList<Label> lblList = new ArrayList<>();
-        for (SubjectEvent sbjEv : events ){
-            Label tempLbl = new Label(GetLabelText(sbjEv));
-            lblList.add(tempLbl);
-        }
-        return lblList;
+    private Label CreateLabels(SubjectEvent events){
+            Label tempLbl = new Label(GetLabelText(events));
+            tempLbl.setFont(Font.font("Tahoma", FontWeight.NORMAL, 15));
+        return tempLbl;
     }
     
-    private GridPane CreateGrid(ArrayList<Label> lblList){
+    private GridPane CreateGrid(Label lblList){
         GridPane grid = new GridPane();
-        for (int i = 0; i<lblList.size();i++){
-        grid.add(lblList.get(i), 1, i+1);
-    }
+        grid.add(lblList, 1, 1);
+        
+        grid.add(btnNext, 2, 2);
+        grid.add(btnPrevious, 1,2);
+        
         return grid;
     }
+    
     
     private String GetLabelText(SubjectEvent sbjEv){
         String strLabel = "";
         
-        strLabel = sbjEv.getHeader()+", Дата -"+ sbjEv.getTimeList().get(0).getDate().toString();
+        strLabel = sbjEv.getHeader();
+        String strDate = sbjEv.getTimeList().get(0).getDate().toString();
         
+        String strDay = strDate.substring(8, 20);
+        
+        strDate = strDate.substring(4, 10);
+        String strMonth = strDate.substring(0,3);
+        String currentMonth;
+        switch(strMonth)
+        {
+            case "Dec": currentMonth = "Декабрь";
+                break;
+            case "Jan": currentMonth = "Январь";
+                break;
+            case "Feb": currentMonth = "Февраль";
+                break;
+            case "Mar": currentMonth = "Март";
+                break;
+            case "Apr": currentMonth = "Апрель";
+                break;
+            case "May": currentMonth = "Май";
+                break;
+            case "Jun": currentMonth = "Июнь";
+                break;
+            case "Jul": currentMonth = "Июль";
+                break;
+            case "Aug": currentMonth = "Август";
+                break;
+            case "Sep": currentMonth = "Сентябрь";
+                break;
+            case "Oct": currentMonth = "Октябрь";
+                break;
+            case "Nov": currentMonth = "Ноябрь";
+                break;
+            default: currentMonth = "-1";
+                break;
+        }
+        strDate = currentMonth;
+        strLabel = strLabel+"\n\t"+strDate+" "+strDay;
         return strLabel;
     }
     
+    private String ParseLabel(){
+        String info = "";
+        
+        
+        
+        return info;
+    }
+    
+    
+    
+
 }
