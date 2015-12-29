@@ -41,6 +41,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import javafx.stage.WindowEvent;
 import javax.swing.ImageIcon;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
@@ -67,7 +68,8 @@ public class frmAddSubjectEvent extends Application{
     static Stage ps;
     RS_Project rsProj;
     
-    Label lbl = new Label();
+    boolean isStart = true;
+    Label lbl;
     
     
     SubjectEvent testEv;
@@ -76,82 +78,57 @@ public class frmAddSubjectEvent extends Application{
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+
         ps = primaryStage;
-        //userSubject = new Subject();
         
         primaryStage.setTitle("Добавить событие");
         GridPane root = CreateGrid();
-        root.add(lbl,0,7);
+        
         Scene scn = new Scene(root,350,200);
         primaryStage.setScene(scn);
         primaryStage.show();
+        
+        primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+
+            @Override
+            public void handle(WindowEvent event) {
+                isStart=true;
+                rsProj.Refresh();
+            }
+        });
         
         btnAddEvent.setOnAction(new EventHandler<ActionEvent>() {
 
         @Override
         public void handle(ActionEvent event) {
          userEvent = new SubjectEvent();
-         userEvent.setHeader(txtEventName.getText());
-         userEvent.setContent(txtEventContent.getText());
-         userEvent.setType(EventType.SINGLE);
          
         LocalDate localDate = dpEventTime.getValue();
-        Instant instant;
         
-        int year = localDate.getYear();
-        int month = localDate.getMonthValue();
-        int day = localDate.getDayOfMonth();
-        int hour = Integer.parseInt(txtHour.getText());
-        int minutes = Integer.parseInt(txtMinutes.getText());
-        EventTime userTime = new EventTime();
-        userTime.setDate(new Date(year-1900, month-1, day, hour, minutes));
-        //userEvent.getTimeList().add(userTime);
-        
-//        ArrayList<EventTime> listEV = new ArrayList<EventTime>();
-//        listEV.add(userTime);
-//        userEvent.setTimeList(listEV);
-        userEvent.setTime(userTime);
-        
+        userEvent = CreateEvent(localDate);
+
         userSubject.getEventList().add(userEvent);
-            WriteEventToXML(userSubject);
-        //ПОКА РАБОТАЕМ С ТЕСТОВЫМ ПРЕДМЕТОМ
-//            try {
-//                ParseXML.AddNewEventToXML(userSubject);
-//                //Date date = Date.from(instant);
-//            } catch (SAXException ex) {
-//                Logger.getLogger(frmAddSubjectEvent.class.getName()).log(Level.SEVERE, null, ex);
-//            } catch (IOException ex) {
-//                Logger.getLogger(frmAddSubjectEvent.class.getName()).log(Level.SEVERE, null, ex);
-//            } catch (ParserConfigurationException ex) {
-//                Logger.getLogger(frmAddSubjectEvent.class.getName()).log(Level.SEVERE, null, ex);
-//            } catch (TransformerException ex) {
-//                Logger.getLogger(frmAddSubjectEvent.class.getName()).log(Level.SEVERE, null, ex);
-//            }
-//         
-            CreateTimer(userEvent);
-            
-         //userTime.setDate(date);
-            
-        String a = String.valueOf(day);
-         lbl = new Label("Задание добавленно");
-         rsProj.Refresh();
-         
-            try {
-                start(primaryStage);
-                
-                
+        
+        WriteEventToXML(userSubject);
+        
+        
+        EventTimer.CreateTimer(userSubject, userEvent);
+        
+        Refresh();
+  
+    }
+
+        });
+    }
+    
+        private void Refresh(){
+                    try {
+                start(ps);   
             } catch (Exception ex) {
                 Logger.getLogger(frmAddSubjectEvent.class.getName()).log(Level.SEVERE, null, ex);
             }
          
             }
-        });
-//        GridPane root = CreateGrid();
-//        //root.add(lbl,0,5);
-//        Scene scn = new Scene(root,350,150);
-//        primaryStage.setScene(scn);
-//        primaryStage.show();   
-    }
     
     private void WriteEventToXML(Subject userSubject){
                     try {
@@ -176,27 +153,22 @@ public class frmAddSubjectEvent extends Application{
             @Override
             public void run() {
                 Platform.runLater(() -> {
-                //System.out.println(event.getHeader() + "\n\t" + event.getContent());
-                //форма, при срабатывании таймера
                 WatchEvent(event);
-                //timer.cancel();
-                //Scene sc = new Scene(lbl);
-                //Stage ps = new Stage();
-                //ps.setScene(sc);
-                //ps.show();
                 });
-
             }
-
-//        }, event.getTimeList().get(event.getTimeList().size() - 1).getDate());
         }, event.getTime().getDate());
-    
-        
-//        timer.schedule(task, event.getTime().getDate());
     }
     
     private GridPane CreateGrid() throws ParseException{
         GridPane grid = new GridPane();
+        
+        if (isStart){
+        lbl = new Label();
+        }
+        else{
+            lbl = new Label("Событие было добавлено");
+        }
+             
         Label lblAddEvent = new Label("Введите информацию о событии");
         lblAddEvent.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
         
@@ -232,6 +204,7 @@ public class frmAddSubjectEvent extends Application{
         grid.add(lblMinutes, 0, 5);
         grid.add(txtMinutes, 1, 5);
         
+        grid.add(lbl,0,7);
         
         btnAddEvent = new Button("Добавить");
         HBox hbBtn = new HBox(10);
@@ -256,13 +229,26 @@ public class frmAddSubjectEvent extends Application{
     }
     public void SetParent (RS_Project prj){
         rsProj = prj;
+    } 
+    
+    private SubjectEvent CreateEvent(LocalDate localDate){
+         
+        SubjectEvent userEv = new SubjectEvent();
+
+        int year = localDate.getYear();
+        int month = localDate.getMonthValue();
+        int day = localDate.getDayOfMonth();
+        int hour = Integer.parseInt(txtHour.getText());
+        int minutes = Integer.parseInt(txtMinutes.getText());
+        EventTime userTime = new EventTime();
+        userTime.setDate(new Date(year-1900, month-1, day, hour, minutes));
+
+        userEv.setTime(userTime);
+        
+        userEv.setHeader(txtEventName.getText());
+        userEv.setContent(txtEventContent.getText());
+        userEv.setType(EventType.SINGLE);
+        
+        return userEv;
     }
-    
-    
-
-    
-    
-    
-
-    
 }

@@ -83,7 +83,24 @@ public class frmEventInfo extends Application {
         //ScrollPane sp= new ScrollPane();
         
         
-
+            btnNext.setOnAction(new EventHandler<ActionEvent>() {
+            
+            @Override
+            public void handle(ActionEvent event) {
+                grid.getChildren().clear();
+                if (currentEventNumber<events.size()-1){
+                 currentEventNumber++;   
+                }
+                else{
+                    currentEventNumber = 0;
+                }
+                try {
+                    start(primaryStage);
+                } catch (Exception ex) {
+                    Logger.getLogger(frmEventInfo.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
             
             
             btnPrevious.setOnAction(new EventHandler<ActionEvent>() {

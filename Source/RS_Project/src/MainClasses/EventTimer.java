@@ -5,6 +5,7 @@
  */
 package MainClasses;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -12,40 +13,43 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.stage.Stage;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
+import org.xml.sax.SAXException;
 import rs_project.frmAddSubjectEvent;
 import rs_project.frmEventMessage;
+import rs_project.RS_Project;
 
 /**
  *
  * @author Егор
  */
 public final class EventTimer {
-    
-    private static void CreateTimer(SubjectEvent event) {
+    static RS_Project parent;
+    public static void CreateTimer(Subject subject, SubjectEvent event) {
         Timer timer = new Timer();
         
-        //TimerTask task;
         timer.schedule(new TimerTask() {
             
             @Override
             public void run() {
-                Platform.runLater(() -> {
-                //System.out.println(event.getHeader() + "\n\t" + event.getContent());
-                //форма, при срабатывании таймера
-                WatchEvent(event);
-                //timer.cancel();
-                //Scene sc = new Scene(lbl);
-                //Stage ps = new Stage();
-                //ps.setScene(sc);
-                //ps.show();
-                });
-
+                    Platform.runLater(() -> {
+                        try {
+                            ParseXML.RemoveEventFromXml(subject, event);
+                        } catch (SAXException ex) {
+                            Logger.getLogger(EventTimer.class.getName()).log(Level.SEVERE, null, ex);
+                        } catch (IOException ex) {
+                            Logger.getLogger(EventTimer.class.getName()).log(Level.SEVERE, null, ex);
+                        } catch (ParserConfigurationException ex) {
+                            Logger.getLogger(EventTimer.class.getName()).log(Level.SEVERE, null, ex);
+                        } catch (TransformerException ex) {
+                            Logger.getLogger(EventTimer.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                        parent.Refresh();
+                        WatchEvent(event);
+                });      
             }
-//        }, event.getTimeList().get(event.getTimeList().size() - 1).getDate());
         }, event.getTime().getDate());
-    
-        
-        //timer.schedule(task, event.getTimeList().get(event.getTimeList().size() - 1).getDate());
     }
     
     private static void WatchEvent(SubjectEvent event){
@@ -62,8 +66,13 @@ public final class EventTimer {
     public static void StartTimersOnProgramLoad(ArrayList<Subject> subjectList) {
         for (Subject subject : subjectList) {
             for (SubjectEvent event : subject.getEventList()) {
-                CreateTimer(event);
+                CreateTimer(subject, event);
             }
         }
     }
+    
+    public static void SetParent(RS_Project prn){
+        parent = prn;
+    }
+    
 }

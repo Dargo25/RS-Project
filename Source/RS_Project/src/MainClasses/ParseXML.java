@@ -105,6 +105,7 @@ public final class ParseXML {
                                 SubjectEvent currentEvent = new SubjectEvent(); //Текущее просматриваемое событие
                                 EventTime currentTime = new EventTime();  
                                 Date date = new Date();
+                             
                                 Node currentEventNode = events.item(k);  //Текущий тег Event
                                 NodeList eventNodeChildren = currentEventNode.getChildNodes(); //Его дети
                                 
@@ -131,6 +132,7 @@ public final class ParseXML {
                                         date.setYear(Integer.parseInt(dateArray[2]) - 1900);
                                         date.setHours(Integer.parseInt(dateArray[3]));
                                         date.setMinutes(Integer.parseInt(dateArray[4]));
+                                        date.setSeconds(0);
                                     }
                                 }
                                 

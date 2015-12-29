@@ -67,6 +67,7 @@ import org.xml.sax.SAXException;
     @Override
     public void start(Stage primaryStage) {
         primaryStage.setTitle("RS Project");
+        EventTimer.SetParent(this);
         pm = primaryStage;
         subjectList.clear();
         ParseXML.scanXml(subjectList);
@@ -126,6 +127,8 @@ import org.xml.sax.SAXException;
               
             }
         });
+               
+        EventTimer.StartTimersOnProgramLoad(subjectList);
     }
 
     /**
@@ -202,9 +205,7 @@ import org.xml.sax.SAXException;
         grid.setVgap(10);
         for (int i = 0; i<sbjName.size();i++){
         grid.add(sbjName.get(i), 3, i+1);
-        
-//        int n = ParseLabel(sbjName.get(i));
-//        Subject sbj = GetSubjectByNumber(n);
+
         if (count<imgEvent.size())
         {
         if (imgEvent.get(count).GetNumber()==i){
@@ -213,13 +214,6 @@ import org.xml.sax.SAXException;
             count++;
         }
         }
-        
-        
-        
-//        if (sbj.getEventList().size()!=0){
-//            grid.add(imgEvent.get(count), 4,i+1);
-//            count++;
-//        }
         
         }
         return grid;
