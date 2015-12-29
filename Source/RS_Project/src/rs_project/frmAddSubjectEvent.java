@@ -12,6 +12,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
 import MainClasses.*;
+import java.awt.Color;
 import java.io.IOException;
 import java.text.ParseException;
 import java.time.LocalDate;
@@ -95,8 +96,10 @@ public class frmAddSubjectEvent extends Application {
 
                     Refresh();
 
+                    lbl.setStyle("-fx-text-fill: green; -fx-font-size: 14;");
                     lbl.setText("Событие добавлено");
                 } else {
+                    lbl.setStyle("-fx-text-fill: red; -fx-font-size: 14;");
                     lbl.setText("Заполните поля");
 
                 }
