@@ -7,6 +7,7 @@ package MainClasses;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.xml.parsers.DocumentBuilder;
@@ -30,7 +31,7 @@ import org.w3c.dom.Element;
 public final class ParseXML {
     private static File xmlFile = new File("src/MainClasses/Subjects.xml");
     
-    public static void scanXml(List<Subject> subjectList) {
+    public static void scanXml(ArrayList<Subject> subjectList) {
         try {
             DocumentBuilder dBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
             Document doc = dBuilder.parse(xmlFile);
@@ -43,7 +44,7 @@ public final class ParseXML {
         }
     }
 
-    private static void scanNode(NodeList nodeList, List<Subject> subjectList) {
+    private static void scanNode(NodeList nodeList, ArrayList<Subject> subjectList) {
         Subject subject = new Subject();
         
         for (int i = 0; i < nodeList.getLength(); i++) {
@@ -134,7 +135,8 @@ public final class ParseXML {
                                 }
                                 
                                 currentTime.setDate(date);
-                                currentEvent.getTimeList().add(currentTime);
+//                                currentEvent.getTimeList().add(currentTime);
+                                currentEvent.setTime(currentTime);
                                 subject.getEventList().add(currentEvent);
                             }
                         }
@@ -161,15 +163,15 @@ public final class ParseXML {
         DocumentBuilder builder = dbf.newDocumentBuilder();
         Document document = builder.parse(xmlFile);
         
-        NodeList subjects = document.getFirstChild().getChildNodes();
+        NodeList subjects = document.getFirstChild().getChildNodes(); // Получаем список тегов Subject
         
         for(int i = 0; i < subjects.getLength(); i++){
-            Node curSubject = subjects.item(i);
-            NodeList subjectChildren = curSubject.getChildNodes();
+            Node curSubject = subjects.item(i); //текущий тег Subject
+            NodeList subjectChildren = curSubject.getChildNodes(); //дочерние теги Subject
             boolean isCorrectDay = false; /*для проверки, работаем ли мы с предметами того дня, который указал пользователь*/
             boolean isCorrectSubjectNumber = false; /*для проверки, работаем ли мы с нужным пользователю предметом, т.е. проверяем номер предмета в расписании*/
             for (int j = 0; j < subjectChildren.getLength(); j++ ) {
-                Node child = subjectChildren.item(j);
+                Node child = subjectChildren.item(j); //текущий дочерний тег Subject-a
                 if ("dayOfWeek".equals(child.getNodeName()) && currentSubject.getDay().toString().toLowerCase().equals(child.getTextContent().toLowerCase())) {
                     isCorrectDay = true;
                 }
@@ -178,7 +180,8 @@ public final class ParseXML {
                 }
                 if (isCorrectSubjectNumber && "Events".equals(child.getNodeName())) {
                     SubjectEvent currentEvent = currentSubject.getEventList().get(currentSubject.getEventList().size() - 1);
-                    EventTime currentTime = currentEvent.getTimeList().get(0);
+//                    EventTime currentTime = currentEvent.getTimeList().get(0);
+                    EventTime currentTime = currentEvent.getTime();
                     Element event = document.createElement("Event");
                     
                     /*УЧЕСТЬ В ДАЛЬНЕЙШЕМ ДРУГОЙ ТИП СОБЫТИЯ*/
@@ -206,6 +209,73 @@ public final class ParseXML {
                     event.appendChild(date);
 //                    event.appendChild(startTime);
                     child.appendChild(event);
+                }
+            }
+        }
+        
+        TransformerFactory transformerFactory = TransformerFactory
+                .newInstance();
+        Transformer transformer = transformerFactory.newTransformer();
+        DOMSource source = new DOMSource(document);
+        StreamResult result = new StreamResult(xmlFile);
+        transformer.transform(source, result);
+    }
+    
+    public static void RemoveEventFromXml(Subject currentSubject, SubjectEvent currentEvent) throws SAXException, IOException, ParserConfigurationException, TransformerException {
+        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+        DocumentBuilder builder = dbf.newDocumentBuilder();
+        Document document = builder.parse(xmlFile);
+        
+        NodeList subjects = document.getFirstChild().getChildNodes(); // Получаем список тегов Subject
+        Date currentEventDate = currentEvent.getTime().getDate();
+        String dateInString = String.valueOf(currentEventDate.getDate()) + "." + String.valueOf(currentEventDate.getMonth() + 1) + "." + String.valueOf(currentEventDate.getYear() + 1900) + 
+                "." + String.valueOf(currentEventDate.getHours()) + "." + String.valueOf(currentEventDate.getMinutes());
+        
+        for(int i = 0; i < subjects.getLength(); i++){
+            Node curSubject = subjects.item(i); //текущий тег Subject
+            NodeList subjectChildren = curSubject.getChildNodes(); //дочерние теги Subject
+            boolean isCorrectDay = false; /*для проверки, работаем ли мы с предметами того дня, который указал пользователь*/
+            boolean isCorrectSubjectNumber = false; /*для проверки, работаем ли мы с нужным пользователю предметом, т.е. проверяем номер предмета в расписании*/
+            for (int j = 0; j < subjectChildren.getLength(); j++ ) { //Идем по дочерним тегам Subject-a
+                Node subjectChild = subjectChildren.item(j); //текущий дочерний тег Subject-a
+                if ("dayOfWeek".equals(subjectChild.getNodeName()) && currentSubject.getDay().toString().toLowerCase().equals(subjectChild.getTextContent().toLowerCase())) {
+                    isCorrectDay = true;
+                }
+                if (isCorrectDay && "numberInTable".equals(subjectChild.getNodeName()) && Integer.parseInt(subjectChild.getTextContent()) == currentSubject.getNumberInTable()) {
+                    isCorrectSubjectNumber = true;
+                }
+                if (isCorrectSubjectNumber && "Events".equals(subjectChild.getNodeName())) {
+                    Node events = subjectChild;
+                    NodeList eventList = subjectChild.getChildNodes(); //Лист тегов Event
+                    
+                    for (int v = 0; v < eventList.getLength(); v++) { // Идем по Event-ам
+                        Node event = eventList.item(v); //Текущий тег Event
+                        NodeList eventChildren = event.getChildNodes(); //Его дочерние теги
+                        boolean isCorrectType = false; 
+                        boolean isCorrectHeader = false;  /*ЭТО ВСЁ ДЛЯ ПОИСКА НУЖНОГО СОБЫТИЯ ДЛЯ УДАЛЕНИЯ*/
+                        boolean isCorrectContent = false;
+                        boolean isCorrectDate = false;
+                        for (int b = 0; b < eventChildren.getLength(); b++) { //Идем по списку дочерних тегов Event-a
+                            Node eventChild = eventChildren.item(b); //Текущий дочерний тег
+                            if ("type".equals(eventChild.getNodeName()) && currentEvent.getType().toString().toLowerCase().equals(eventChild.getTextContent().toLowerCase())) {
+                                isCorrectType = true;
+                            }
+                            if ("header".equals(eventChild.getNodeName()) && currentEvent.getHeader().toString().equals(eventChild.getTextContent())) {
+                                isCorrectHeader = true;
+                            }
+                            if ("content".equals(eventChild.getNodeName()) && currentEvent.getContent().toString().equals(eventChild.getTextContent())) {
+                                isCorrectContent = true;
+                            }
+                            if ("date".equals(eventChild.getNodeName()) && dateInString.equals(eventChild.getTextContent())) {
+                                isCorrectDate = true;
+                            }
+                        }
+                        
+                        if (isCorrectType && isCorrectHeader && isCorrectContent && isCorrectDate) {
+                            events.removeChild(event);
+                            break;
+                        }
+                    }
                 }
             }
         }
