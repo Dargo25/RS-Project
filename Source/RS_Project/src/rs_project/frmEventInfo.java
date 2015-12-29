@@ -132,7 +132,7 @@ public class frmEventInfo extends Application {
         String strLabel = "";
         
         strLabel = sbjEv.getHeader();
-        String strDate = sbjEv.getTimeList().get(0).getDate().toString();
+        String strDate = sbjEv.getTime().getDate().toString();
         
         String strDay = strDate.substring(8, 20);
         
