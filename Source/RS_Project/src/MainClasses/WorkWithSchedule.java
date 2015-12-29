@@ -6,6 +6,7 @@
 package MainClasses;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -24,7 +25,7 @@ import org.xml.sax.SAXException;
  */
 public final class WorkWithSchedule {
 
-    public static void Display(List<Subject> subjectList) {
+    public static void Display(ArrayList<Subject> subjectList) {
         String[] info = GetInfo(subjectList);
         
         for (int i = 0; i < info.length; i++) {
@@ -32,7 +33,7 @@ public final class WorkWithSchedule {
         }
     }
 
-    private static String[] GetInfo(List<Subject> subjectList) {
+    private static String[] GetInfo(ArrayList<Subject> subjectList) {
         ParseXML.scanXml(subjectList);
         String[] info = new String[subjectList.size()];
         for (int i = 0; i < subjectList.size(); i++) {
@@ -41,7 +42,7 @@ public final class WorkWithSchedule {
         return info;
     }
 
-    private static Subject GetSubjetForEvent(int i, List<Subject> subjectList) {
+    private static Subject GetSubjetForEvent(int i, ArrayList<Subject> subjectList) {
         Subject subject = null;
         for (Subject subjectList1 : subjectList) {
             if (subjectList1.getNumberInTable() == i) {
@@ -51,7 +52,7 @@ public final class WorkWithSchedule {
         return subject;
     }
     
-    public static void addEventToSubject(List<Subject> subjectList) {
+    public static void addEventToSubject(ArrayList<Subject> subjectList) {
         Subject currentSubject = null;
         Scanner scan = new Scanner(System.in);
         //Поиск предмета по номеру + проверка на корректность
@@ -106,7 +107,8 @@ public final class WorkWithSchedule {
         int minutes = 59;
         EventTime time = new EventTime();
         time.setDate(new Date(year-1900, month-1, day, hour, minutes));
-        event.getTimeList().add(time);
+//        event.getTimeList().add(time);
+        event.setTime(time);
 
         currentSubject.getEventList().add(event);
         //CreateTimer(event);

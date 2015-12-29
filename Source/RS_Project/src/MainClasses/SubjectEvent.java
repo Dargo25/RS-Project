@@ -16,11 +16,12 @@ public class SubjectEvent {
     private EventType type;
     private String header;
     private String content;
-    private List<EventTime> timeList;
+    //private List<EventTime> timeList;
+    private EventTime time;
     
-    public SubjectEvent(){
-        this.timeList = new ArrayList<>();
-    }
+//    public SubjectEvent(){
+//        this.timeList = new ArrayList<>();
+//    }
 
     public EventType getType() {
         return type;
@@ -46,11 +47,19 @@ public class SubjectEvent {
         this.content = content;
     }
 
-    public List<EventTime> getTimeList() {
-        return timeList;
+//    public List<EventTime> getTimeList() {
+//        return timeList;
+//    }
+//
+//    public void setTimeList(List<EventTime> timeList) {
+//        this.timeList = timeList;
+//    }
+
+    public EventTime getTime() {
+        return time;
     }
 
-    public void setTimeList(List<EventTime> timeList) {
-        this.timeList = timeList;
+    public void setTime(EventTime time) {
+        this.time = time;
     }
 }

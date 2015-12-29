@@ -85,6 +85,7 @@ public class frmAddSubjectEvent extends Application{
 
         @Override
         public void handle(ActionEvent event) {
+         userEvent = new SubjectEvent();
          userEvent.setHeader(txtEventName.getText());
          userEvent.setContent(txtEventContent.getText());
          userEvent.setType(EventType.SINGLE);
@@ -101,9 +102,10 @@ public class frmAddSubjectEvent extends Application{
         userTime.setDate(new Date(year-1900, month-1, day, hour, minutes));
         //userEvent.getTimeList().add(userTime);
         
-        ArrayList<EventTime> listEV = new ArrayList<EventTime>();
-        listEV.add(userTime);
-        userEvent.setTimeList(listEV);
+//        ArrayList<EventTime> listEV = new ArrayList<EventTime>();
+//        listEV.add(userTime);
+//        userEvent.setTimeList(listEV);
+        userEvent.setTime(userTime);
         
         userSubject.getEventList().add(userEvent);
             WriteEventToXML(userSubject);
@@ -164,7 +166,6 @@ public class frmAddSubjectEvent extends Application{
     private void CreateTimer(SubjectEvent event) {
         Timer timer = new Timer();
         
-        //TimerTask task;
         timer.schedule(new TimerTask() {
             
             @Override
@@ -181,10 +182,11 @@ public class frmAddSubjectEvent extends Application{
                 });
 
             }
-        }, event.getTimeList().get(event.getTimeList().size() - 1).getDate());
+//        }, event.getTimeList().get(event.getTimeList().size() - 1).getDate());
+        }, event.getTime().getDate());
     
         
-        //timer.schedule(task, event.getTimeList().get(event.getTimeList().size() - 1).getDate());
+//        timer.schedule(task, event.getTime().getDate());
     }
     
     private GridPane CreateGrid() throws ParseException{

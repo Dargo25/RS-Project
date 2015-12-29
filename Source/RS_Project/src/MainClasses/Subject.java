@@ -17,7 +17,7 @@ public class Subject {
     private String lecturerName;
     private int audience;
     private int housing;
-    private List<SubjectEvent> eventList;
+    private ArrayList<SubjectEvent> eventList;
     private int numberInTable;
     private DaysOfWeek day;
     
@@ -61,7 +61,7 @@ public class Subject {
         return eventList;
     }
 
-    public void setEventList(List<SubjectEvent> eventList) {
+    public void setEventList(ArrayList<SubjectEvent> eventList) {
         this.eventList = eventList;
     }
 

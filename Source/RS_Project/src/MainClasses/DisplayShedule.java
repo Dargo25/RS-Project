@@ -16,7 +16,7 @@ import java.util.Scanner;
  */
 public final class DisplayShedule {
 
-    public static void Display(List<Subject> subjectList) {
+    public static void Display(ArrayList<Subject> subjectList) {
         Subject currentSubject = null;
         String[] info = GetInfo(subjectList);
         
@@ -65,14 +65,15 @@ public final class DisplayShedule {
         int minutes = scan.nextInt();
         EventTime time = new EventTime();
         time.setDate(new Date(year-1900, month-1, day, hour, minutes));
-        myEvent.setTimeList(new ArrayList<>());
-        myEvent.getTimeList().add(time);
+//        myEvent.setTimeList(new ArrayList<>());
+//        myEvent.getTimeList().add(time);
+        myEvent.setTime(time);
         
         currentSubject.setEventList(new ArrayList<>());
         currentSubject.getEventList().add(myEvent);
     }
 
-    private static String[] GetInfo(List<Subject> subjectList) {
+    private static String[] GetInfo(ArrayList<Subject> subjectList) {
         ParseXML.scanXml(subjectList);
         String[] info = new String[subjectList.size()];
         for (int i = 0; i < subjectList.size(); i++) {
@@ -81,7 +82,7 @@ public final class DisplayShedule {
         return info;
     }
 
-    private static Subject GetSubjetForEvent(int i, List<Subject> subjectList) {
+    private static Subject GetSubjetForEvent(int i, ArrayList<Subject> subjectList) {
         Subject subject = null;
         for (Subject subjectList1 : subjectList) {
             if (subjectList1.getNumberInTable() == i) {

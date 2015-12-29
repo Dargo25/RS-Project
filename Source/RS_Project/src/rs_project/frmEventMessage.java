@@ -80,7 +80,7 @@ public class frmEventMessage extends Application {
     }
     
     public void SetEventContent(String eventContent){
-    lblEventContent= new Label(eventContent);
+        lblEventContent= new Label(eventContent);
     }
     
 }
