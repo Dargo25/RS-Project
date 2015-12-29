@@ -170,5 +170,4 @@ public class frmEventInfo extends Application {
         strLabel = strLabel + "\n\t" + strDate + " " + strDay;
         return strLabel;
     }
-
 }

@@ -27,7 +27,7 @@ import org.w3c.dom.Element;
  *
  * @author Samosad
  */
-public final class ParseXML {
+public final class WorkWithXML {
     private static File xmlFile = new File("src/MainClasses/Subjects.xml");
     
     public static void scanXml(ArrayList<Subject> subjectList) {

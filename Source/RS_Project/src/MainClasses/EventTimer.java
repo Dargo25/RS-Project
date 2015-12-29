@@ -26,6 +26,7 @@ import rs_project.RS_Project;
  */
 public final class EventTimer {
     static RS_Project parent;
+    
     public static void CreateTimer(Subject subject, SubjectEvent event) {
         Timer timer = new Timer();
         
@@ -35,7 +36,7 @@ public final class EventTimer {
             public void run() {
                     Platform.runLater(() -> {
                         try {
-                            ParseXML.RemoveEventFromXml(subject, event);
+                            WorkWithXML.RemoveEventFromXml(subject, event);
                         } catch (SAXException ex) {
                             Logger.getLogger(EventTimer.class.getName()).log(Level.SEVERE, null, ex);
                         } catch (IOException ex) {
@@ -74,5 +75,4 @@ public final class EventTimer {
     public static void SetParent(RS_Project prn){
         parent = prn;
     }
-    
 }

@@ -19,6 +19,7 @@ import javafx.event.Event;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -27,15 +28,15 @@ import javafx.scene.text.FontWeight;
  *
  * @author Егор
  */
-    public class RS_Project extends Application {
+public class RS_Project extends Application {
     private ArrayList<Subject> subjectList = new ArrayList<>();
     GridPane grid;
     DaysOfWeek currentDay = DaysOfWeek.MONDAY;
     ArrayList<Subject> currentSbj;
     ArrayList<EventImage> imgEvent;
-
+    boolean isFirstLaunch = true;
     
-    frmAddSubjectEvent fm = new frmAddSubjectEvent();
+    frmAddSubjectEvent frmAddSbj = new frmAddSubjectEvent();
     Stage currentStage;
     
     Button btnPrevious;
@@ -46,7 +47,7 @@ import javafx.scene.text.FontWeight;
         primaryStage.setTitle("RS Project");
         currentStage = primaryStage;
         subjectList.clear();
-        ParseXML.scanXml(subjectList);
+        WorkWithXML.scanXml(subjectList);
         currentSbj = LoadSubjects(subjectList, currentDay);
         ArrayList<Label> sbjName = WriteSubjectsToLabels(currentSbj);
         
@@ -82,8 +83,10 @@ import javafx.scene.text.FontWeight;
               
             }
         });
-               
-        EventTimer.StartTimersOnProgramLoad(subjectList);
+        if (isFirstLaunch) {
+            EventTimer.StartTimersOnProgramLoad(subjectList);
+            isFirstLaunch = false;
+        }
     }
 
     /**
@@ -94,7 +97,7 @@ import javafx.scene.text.FontWeight;
     }
     
     private void GetParent(){
-        fm.SetParent(this);
+        frmAddSbj.SetParent(this);
         EventTimer.SetParent(this);
     }
 
@@ -128,8 +131,26 @@ import javafx.scene.text.FontWeight;
         for(int i = 0; i<subjects.size();i++){
             if (!subjects.get(i).getEventList().isEmpty()){
                 ImageView imgEvent = new ImageView("images/event.png");
-                imgEvent.setFitHeight(20);
-                imgEvent.setFitWidth(20);
+                imgEvent.setFitHeight(25);
+                imgEvent.setFitWidth(25);
+                
+                imgEvent.setOnMouseEntered(new EventHandler<MouseEvent>() {
+
+                    @Override
+                    public void handle(MouseEvent event) {
+                        imgEvent.setFitHeight(28);
+                        imgEvent.setFitWidth(28);
+                    }
+                });
+                
+                imgEvent.setOnMouseExited(new EventHandler<MouseEvent>() {
+
+                    @Override
+                    public void handle(MouseEvent event) {
+                        imgEvent.setFitHeight(25);
+                        imgEvent.setFitWidth(25);
+                    }
+                });
                 
                 EventImage userIME=new EventImage();
                 userIME.SetImg(imgEvent);
@@ -252,7 +273,6 @@ import javafx.scene.text.FontWeight;
                 if (sbj.getNumberInTable()==number){
                     return sbj;
                 }
-                    
             }
             return null;
         }
@@ -269,15 +289,14 @@ import javafx.scene.text.FontWeight;
             @Override
                 public void handle(Event event) {
                     int number = ParseLabel(node);
-                    fm.SetSubject(GetSubjectByNumber(number));
+                    frmAddSbj.SetSubject(GetSubjectByNumber(number));
                     try {
-                        fm.start(new Stage());
+                        frmAddSbj.start(new Stage());
                     } 
                     catch (Exception ex) {
                         Logger.getLogger(RS_Project.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                }    
-
+                }  
             });
             node.setOnMouseMoved(new EventHandler(){
             @Override
@@ -309,7 +328,6 @@ import javafx.scene.text.FontWeight;
             }    
         });
     }
-   
 }
     
 

@@ -12,16 +12,12 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
 import MainClasses.*;
-import java.awt.Color;
 import java.io.IOException;
 import java.text.ParseException;
 import java.time.LocalDate;
 import java.util.Date;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
@@ -101,11 +97,8 @@ public class frmAddSubjectEvent extends Application {
                 } else {
                     lbl.setStyle("-fx-text-fill: red; -fx-font-size: 14;");
                     lbl.setText("Заполните поля");
-
                 }
-
             }
-
         });
     }
 
@@ -115,12 +108,11 @@ public class frmAddSubjectEvent extends Application {
         } catch (Exception ex) {
             Logger.getLogger(frmAddSubjectEvent.class.getName()).log(Level.SEVERE, null, ex);
         }
-
     }
 
     private void WriteEventToXML(Subject userSubject) {
         try {
-            ParseXML.AddNewEventToXML(userSubject);
+            WorkWithXML.AddNewEventToXML(userSubject);
         } catch (SAXException ex) {
             Logger.getLogger(frmAddSubjectEvent.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
@@ -130,20 +122,6 @@ public class frmAddSubjectEvent extends Application {
         } catch (TransformerException ex) {
             Logger.getLogger(frmAddSubjectEvent.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }
-
-    private void CreateTimer(SubjectEvent event) {
-        Timer timer = new Timer();
-
-        timer.schedule(new TimerTask() {
-
-            @Override
-            public void run() {
-                Platform.runLater(() -> {
-                    WatchEvent(event);
-                });
-            }
-        }, event.getTime().getDate());
     }
 
     private GridPane CreateGrid() throws ParseException {
@@ -199,18 +177,7 @@ public class frmAddSubjectEvent extends Application {
     public void SetSubject(Subject sbj) {
         userSubject = sbj;
     }
-
-    private void WatchEvent(SubjectEvent event) {
-        frmEventMessage fm = new frmEventMessage();
-        fm.SetEventName(event.getHeader());
-        fm.SetEventContent(event.getContent());
-        try {
-            fm.start(new Stage());
-        } catch (Exception ex) {
-            Logger.getLogger(frmAddSubjectEvent.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
+    
     public void SetParent(RS_Project prj) {
         rsProj = prj;
     }
