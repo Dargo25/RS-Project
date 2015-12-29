@@ -9,7 +9,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -137,7 +136,6 @@ public final class ParseXML {
                                 }
                                 
                                 currentTime.setDate(date);
-//                                currentEvent.getTimeList().add(currentTime);
                                 currentEvent.setTime(currentTime);
                                 subject.getEventList().add(currentEvent);
                             }
@@ -159,7 +157,6 @@ public final class ParseXML {
     }
     
     public static void AddNewEventToXML(Subject currentSubject) throws SAXException, IOException, ParserConfigurationException, TransformerException {
-        //String xmlFile = "src/MainClasses/Subjects.xml";
         
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = dbf.newDocumentBuilder();
@@ -182,7 +179,6 @@ public final class ParseXML {
                 }
                 if (isCorrectSubjectNumber && "Events".equals(child.getNodeName())) {
                     SubjectEvent currentEvent = currentSubject.getEventList().get(currentSubject.getEventList().size() - 1);
-//                    EventTime currentTime = currentEvent.getTimeList().get(0);
                     EventTime currentTime = currentEvent.getTime();
                     Element event = document.createElement("Event");
                     
@@ -200,8 +196,6 @@ public final class ParseXML {
                     
                     date.setTextContent(currentTime.getDate().getDate() + "." + (currentTime.getDate().getMonth() + 1) + "." + (currentTime.getDate().getYear() + 1900)
                             + "." + currentTime.getDate().getHours() + "." + currentTime.getDate().getMinutes());
-//                    Element startTime = document.createElement("startTime");
-//                    startTime.setTextContent(currentTime.getDate().getHours() + ":" + currentTime.getDate().getMinutes());
                     
                     /*УЧЕСТЬ ДОБАВЛЕНИЕ ТЭГОВ endTime и interval*/
                     
@@ -209,7 +203,6 @@ public final class ParseXML {
                     event.appendChild(header);
                     event.appendChild(content);
                     event.appendChild(date);
-//                    event.appendChild(startTime);
                     child.appendChild(event);
                 }
             }
@@ -262,10 +255,10 @@ public final class ParseXML {
                             if ("type".equals(eventChild.getNodeName()) && currentEvent.getType().toString().toLowerCase().equals(eventChild.getTextContent().toLowerCase())) {
                                 isCorrectType = true;
                             }
-                            if ("header".equals(eventChild.getNodeName()) && currentEvent.getHeader().toString().equals(eventChild.getTextContent())) {
+                            if ("header".equals(eventChild.getNodeName()) && currentEvent.getHeader().equals(eventChild.getTextContent())) {
                                 isCorrectHeader = true;
                             }
-                            if ("content".equals(eventChild.getNodeName()) && currentEvent.getContent().toString().equals(eventChild.getTextContent())) {
+                            if ("content".equals(eventChild.getNodeName()) && currentEvent.getContent().equals(eventChild.getTextContent())) {
                                 isCorrectContent = true;
                             }
                             if ("date".equals(eventChild.getNodeName()) && dateInString.equals(eventChild.getTextContent())) {
