@@ -13,6 +13,7 @@ import javafx.scene.control.Button;
 import javafx.stage.Stage;
 import MainClasses.*;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.event.Event;
@@ -29,30 +30,35 @@ import javafx.scene.text.FontWeight;
  * @author Егор
  */
 public class RS_Project extends Application {
+
     private ArrayList<Subject> subjectList = new ArrayList<>();
     GridPane grid;
-    DaysOfWeek currentDay = DaysOfWeek.MONDAY;
+//    DaysOfWeek currentDay = DaysOfWeek.MONDAY;
+    DaysOfWeek currentDay;
     ArrayList<Subject> currentSbj;
     ArrayList<EventImage> imgEvent;
-    boolean isFirstLaunch = true;
-    
+    static boolean isFirstLaunch = true;
+
     frmAddSubjectEvent frmAddSbj = new frmAddSubjectEvent();
     Stage currentStage;
-    
+
     Button btnPrevious;
     Button btnNext;
-    
+
     @Override
     public void start(Stage primaryStage) {
         primaryStage.setTitle("RS Project");
         currentStage = primaryStage;
         subjectList.clear();
         WorkWithXML.scanXml(subjectList);
+        
+        ChooseCurrentDay();
+        
         currentSbj = LoadSubjects(subjectList, currentDay);
         ArrayList<Label> sbjName = WriteSubjectsToLabels(currentSbj);
-        
+
         imgEvent = AddEventsSumbol(currentSbj);
-                
+
         GetParent();
 
         grid = CreateGrid(sbjName);
@@ -60,10 +66,10 @@ public class RS_Project extends Application {
         Scene scene = new Scene(grid, 300, 250);
         primaryStage.setScene(scene);
         primaryStage.show();
-        
+
         //-----------***СОБЫТИЯ***-----------
-                btnNext.setOnAction(new EventHandler<ActionEvent>() {
-            
+        btnNext.setOnAction(new EventHandler<ActionEvent>() {
+
             @Override
             public void handle(ActionEvent event) {
                 grid.getChildren().clear();
@@ -71,16 +77,16 @@ public class RS_Project extends Application {
                 start(primaryStage);
             }
         });
-                
-               btnPrevious.setOnAction(new EventHandler<ActionEvent>() {
-            
+
+        btnPrevious.setOnAction(new EventHandler<ActionEvent>() {
+
             @Override
             public void handle(ActionEvent event) {
                 grid.getChildren().clear();
-                
+
                 currentDay = GetPreviousDay(currentDay);
                 start(primaryStage);
-              
+
             }
         });
         if (isFirstLaunch) {
@@ -95,23 +101,24 @@ public class RS_Project extends Application {
     public static void main(String[] args) {
         launch(args);
     }
-    
-    private void GetParent(){
+
+    private void GetParent() {
         frmAddSbj.SetParent(this);
         EventTimer.SetParent(this);
     }
 
     private static ArrayList<Subject> LoadSubjects(ArrayList<Subject> subjects, DaysOfWeek day) {
-       ArrayList<Subject> CurrentSubjects = new ArrayList<>();
-       for (Subject sbj : subjects) {
-           if (sbj.getDay()== day){
-               CurrentSubjects.add(sbj);
-           }
+        ArrayList<Subject> CurrentSubjects = new ArrayList<>();
+        for (Subject sbj : subjects) {
+            if (sbj.getDay() == day) {
+                CurrentSubjects.add(sbj);
+            }
         }
-       return CurrentSubjects;
+        return CurrentSubjects;
     }
-    private  ArrayList<Label> WriteSubjectsToLabels (ArrayList<Subject> subjects){
-        ArrayList <Label> labelList = new ArrayList<>();
+
+    private ArrayList<Label> WriteSubjectsToLabels(ArrayList<Subject> subjects) {
+        ArrayList<Label> labelList = new ArrayList<>();
         for (Subject Subject : subjects) {
             Label tempLabel = new Label(this.GetLabelName(Subject));
             tempLabel.setFont(Font.font("Tahoma", FontWeight.NORMAL, 12));
@@ -120,20 +127,19 @@ public class RS_Project extends Application {
         }
         return labelList;
     }
-    
-    public  void Refresh()
-    {
+
+    public void Refresh() {
         start(this.currentStage);
     }
-    
-    private ArrayList<EventImage> AddEventsSumbol(ArrayList<Subject> subjects){
+
+    private ArrayList<EventImage> AddEventsSumbol(ArrayList<Subject> subjects) {
         ArrayList<EventImage> imgList = new ArrayList<>();
-        for(int i = 0; i<subjects.size();i++){
-            if (!subjects.get(i).getEventList().isEmpty()){
+        for (int i = 0; i < subjects.size(); i++) {
+            if (!subjects.get(i).getEventList().isEmpty()) {
                 ImageView imgEvent = new ImageView("images/event.png");
                 imgEvent.setFitHeight(25);
                 imgEvent.setFitWidth(25);
-                
+
                 imgEvent.setOnMouseEntered(new EventHandler<MouseEvent>() {
 
                     @Override
@@ -142,7 +148,7 @@ public class RS_Project extends Application {
                         imgEvent.setFitWidth(28);
                     }
                 });
-                
+
                 imgEvent.setOnMouseExited(new EventHandler<MouseEvent>() {
 
                     @Override
@@ -151,188 +157,189 @@ public class RS_Project extends Application {
                         imgEvent.setFitWidth(25);
                     }
                 });
-                
-                EventImage userIME=new EventImage();
+
+                EventImage userIME = new EventImage();
                 userIME.SetImg(imgEvent);
                 userIME.SetNumber(i);
                 userIME.SetEvents((ArrayList<SubjectEvent>) subjects.get(i).getEventList());
-                
+
                 imgList.add(userIME);
             }
         }
         return imgList;
     }
-    
-    private String GetLabelName(Subject sbj){
-            String number = String.valueOf(sbj.getNumberInTable());
-            number +=". ";
-            String name = sbj.getSubjectName();
-            name +="\n";
-            String lect = sbj.getLecturerName();
-            String result = number+name+lect;
-            return result;
+
+    private String GetLabelName(Subject sbj) {
+        String number = String.valueOf(sbj.getNumberInTable());
+        number += ". ";
+        String name = sbj.getSubjectName();
+        name += "\n";
+        String lect = sbj.getLecturerName();
+        String audience = String.valueOf(sbj.getAudience());
+        if (sbj.getAudience() == 0) {
+            audience = "Спортзал";
+        }
+        String housing = String.valueOf(sbj.getHousing());
+        String result = number + name + lect + " " + audience + "/" + housing;
+        return result;
     }
-    
-    private GridPane CreateGrid (ArrayList<Label> sbjName){
+
+    private GridPane CreateGrid(ArrayList<Label> sbjName) {
         GridPane grid = new GridPane();
         int count = 0;
         grid.setAlignment(Pos.CENTER);
         grid.setHgap(10);
         grid.setVgap(10);
-        for (int i = 0; i<sbjName.size();i++){
-            grid.add(sbjName.get(i), 3, i+1);
+        for (int i = 0; i < sbjName.size(); i++) {
+            grid.add(sbjName.get(i), 3, i + 1);
 
-            if (count<imgEvent.size())
-            {
-                if (imgEvent.get(count).GetNumber()==i){
-                    grid.add(imgEvent.get(count).GetImg(), 4,i+1);
+            if (count < imgEvent.size()) {
+                if (imgEvent.get(count).GetNumber() == i) {
+                    grid.add(imgEvent.get(count).GetImg(), 4, i + 1);
                     addImageClick(imgEvent.get(i));
                     count++;
                 }
             }
-        
-            }
-        
+
+        }
+
         btnNext = new Button();
         btnNext.setText("Next Day");
-        
+
         btnPrevious = new Button();
         btnPrevious.setText("Previous Day");
-        
+
         Label lblToday = new Label(currentDay.toString());
-        
-        grid.add(lblToday,3,0);
-        grid.add(btnNext,6, 7);
+
+        grid.add(lblToday, 3, 0);
+        grid.add(btnNext, 6, 7);
         grid.add(btnPrevious, 2, 7);
-        
+
         return grid;
     }
-    
-    private DaysOfWeek GetNextDay(DaysOfWeek cDay){
-        if (cDay==DaysOfWeek.MONDAY){
+
+    private DaysOfWeek GetNextDay(DaysOfWeek cDay) {
+        if (cDay == DaysOfWeek.MONDAY) {
             return DaysOfWeek.TUESDAY;
         }
-        
-        if (cDay==DaysOfWeek.TUESDAY){
+
+        if (cDay == DaysOfWeek.TUESDAY) {
             return DaysOfWeek.WEDNESDAY;
         }
-        
-        
-        if (cDay==DaysOfWeek.WEDNESDAY){
+
+        if (cDay == DaysOfWeek.WEDNESDAY) {
             return DaysOfWeek.THURSDAY;
         }
-        
-       
-        if (cDay==DaysOfWeek.THURSDAY){
+
+        if (cDay == DaysOfWeek.THURSDAY) {
             return DaysOfWeek.FRIDAY;
         }
-        
-        
-        if (cDay==DaysOfWeek.FRIDAY){
+
+        if (cDay == DaysOfWeek.FRIDAY) {
             return DaysOfWeek.SATURDAY;
         }
-        
-        if (cDay==DaysOfWeek.SATURDAY){
+
+        if (cDay == DaysOfWeek.SATURDAY) {
             return DaysOfWeek.MONDAY;
         }
         return null;
     }
-    
-        private DaysOfWeek GetPreviousDay(DaysOfWeek cDay){
-        if (cDay==DaysOfWeek.TUESDAY){
+
+    private DaysOfWeek GetPreviousDay(DaysOfWeek cDay) {
+        if (cDay == DaysOfWeek.TUESDAY) {
             return DaysOfWeek.MONDAY;
         }
-        
-        if (cDay==DaysOfWeek.WEDNESDAY){
+
+        if (cDay == DaysOfWeek.WEDNESDAY) {
             return DaysOfWeek.TUESDAY;
         }
-        
-        
-        if (cDay==DaysOfWeek.THURSDAY){
+
+        if (cDay == DaysOfWeek.THURSDAY) {
             return DaysOfWeek.WEDNESDAY;
         }
-        
-       
-        if (cDay==DaysOfWeek.FRIDAY){
+
+        if (cDay == DaysOfWeek.FRIDAY) {
             return DaysOfWeek.THURSDAY;
         }
-        
-        
-        if (cDay==DaysOfWeek.SATURDAY){
+
+        if (cDay == DaysOfWeek.SATURDAY) {
             return DaysOfWeek.FRIDAY;
         }
-        
-        if (cDay==DaysOfWeek.MONDAY){
+
+        if (cDay == DaysOfWeek.MONDAY) {
             return DaysOfWeek.SATURDAY;
         }
         return null;
     }
-      
-        private Subject GetSubjectByNumber(int number){
-            for (Subject sbj: currentSbj){
-                if (sbj.getNumberInTable()==number){
-                    return sbj;
+
+    private Subject GetSubjectByNumber(int number) {
+        for (Subject sbj : currentSbj) {
+            if (sbj.getNumberInTable() == number) {
+                return sbj;
+            }
+        }
+        return null;
+    }
+
+    private int ParseLabel(Label lbl) {
+        String sbjInfo = lbl.getText();
+        String substring = sbjInfo.substring(0, 1);
+        int number = Integer.parseInt(substring);
+        return number;
+    }
+
+    private void addTranslateListener(final Label node) {
+        node.setOnMousePressed(new EventHandler() {
+            @Override
+            public void handle(Event event) {
+                int number = ParseLabel(node);
+                frmAddSbj.SetSubject(GetSubjectByNumber(number));
+                try {
+                    frmAddSbj.start(new Stage());
+                } catch (Exception ex) {
+                    Logger.getLogger(RS_Project.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
-            return null;
-        }
-        
-        private int ParseLabel(Label lbl){
-            String sbjInfo = lbl.getText();
-            String substring = sbjInfo.substring(0, 1);
-            int number = Integer.parseInt(substring);
-            return number;
-        }
-
-        private void addTranslateListener(final Label node) { 
-            node.setOnMousePressed(new EventHandler() { 
+        });
+        node.setOnMouseMoved(new EventHandler() {
             @Override
-                public void handle(Event event) {
-                    int number = ParseLabel(node);
-                    frmAddSbj.SetSubject(GetSubjectByNumber(number));
-                    try {
-                        frmAddSbj.start(new Stage());
-                    } 
-                    catch (Exception ex) {
-                        Logger.getLogger(RS_Project.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                }  
-            });
-            node.setOnMouseMoved(new EventHandler(){
-            @Override
-                public void handle(Event event) {
-                node.setFont(Font.font("Tahoma", FontWeight.NORMAL, 14));
-                }
-            });
-   
-            node.setOnMouseExited(new EventHandler(){
-            @Override
-                public void handle(Event event) {
-                    node.setFont(Font.font("Tahoma", FontWeight.NORMAL, 12));
-                }   
-            });
-        }
-   
-    private void addImageClick(final EventImage node) { 
-        node.GetImg().setOnMousePressed(new EventHandler() { 
-        @Override
             public void handle(Event event) {
-            frmEventInfo fm = new frmEventInfo();
-            fm.SetEvents((ArrayList<SubjectEvent>) node.GetEvents());
-                try {
-                    fm.start(new Stage());
-                } 
-                catch (Exception ex) {
-                    Logger.getLogger(RS_Project.class.getName()).log(Level.SEVERE, null, ex);
-                }    
-            }    
+                node.setFont(Font.font("Tahoma", FontWeight.NORMAL, 14));
+            }
+        });
+
+        node.setOnMouseExited(new EventHandler() {
+            @Override
+            public void handle(Event event) {
+                node.setFont(Font.font("Tahoma", FontWeight.NORMAL, 12));
+            }
         });
     }
+
+    private void addImageClick(final EventImage node) {
+        node.GetImg().setOnMousePressed(new EventHandler() {
+            @Override
+            public void handle(Event event) {
+                frmEventInfo fm = new frmEventInfo();
+                fm.SetEvents((ArrayList<SubjectEvent>) node.GetEvents());
+                try {
+                    fm.start(new Stage());
+                } catch (Exception ex) {
+                    Logger.getLogger(RS_Project.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
+    }
+    
+    private void ChooseCurrentDay() {
+        if (isFirstLaunch) {
+            Date today = new Date();
+            DaysOfWeek[] d = DaysOfWeek.values();
+            int dayNumber = today.getDay();
+            if (dayNumber == 0) {
+                dayNumber = 6;
+            }
+            currentDay = d[dayNumber - 1];
+        }
+    }
 }
-    
-
-  
-    
-
-    
-    
