@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><Subjects>
+﻿<?xml version="1.0" encoding="UTF-8" standalone="no"?><Subjects>
 <Subject>
 <subjectName>Математика</subjectName>
 <lecturerName>Плетнев</lecturerName>
@@ -15,7 +15,7 @@
 <housing>2</housing>
 <dayOfWeek>Monday</dayOfWeek>
 <numberInTable>2</numberInTable>
-<Events><Event><type>SINGLE</type><header>Задачи на сегодня</header><content>1) Выводить для предметов кабинет и корпус. 2) При запуске надо показывать пары текущего дня недели. 3) Тесты 4) В списек ивентов показывать контент</content><date>30.12.2015.10.10</date></Event></Events>
+<Events><Event><type>SINGLE</type><header>Задачи на сегодня</header><content>3) Тесты 4) В списек ивентов показывать контент</content><date>30.12.2015.10.10</date></Event></Events>
 </Subject>
 <Subject>
 <subjectName>ЭВМ</subjectName>
