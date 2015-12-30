@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8" standalone="no"?><Subjects>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><Subjects>
 <Subject>
 <subjectName>Математика</subjectName>
 <lecturerName>Плетнев</lecturerName>
@@ -6,7 +6,7 @@
 <housing>1</housing>
 <dayOfWeek>Monday</dayOfWeek>
 <numberInTable>1</numberInTable>
-<Events><Event><type>SINGLE</type><header>11</header><content>11</content><date>30.12.2015.11.11</date></Event><Event><type>SINGLE</type><header>11</header><content>11</content><date>31.12.2015.11.11</date></Event><Event><type>SINGLE</type><header>11</header><content>11</content><date>31.12.2015.11.11</date></Event><Event><type>SINGLE</type><header>11</header><content>11</content><date>31.12.2015.11.11</date></Event><Event><type>SINGLE</type><header>11</header><content>11</content><date>31.12.2015.11.11</date></Event><Event><type>SINGLE</type><header>11</header><content>11</content><date>31.12.2015.11.11</date></Event><Event><type>SINGLE</type><header>11</header><content>11</content><date>31.12.2015.11.11</date></Event><Event><type>SINGLE</type><header>11</header><content>11</content><date>31.12.2015.11.11</date></Event><Event><type>SINGLE</type><header>11</header><content>11</content><date>31.12.2015.11.11</date></Event><Event><type>SINGLE</type><header>11</header><content>11</content><date>31.12.2015.11.11</date></Event><Event><type>SINGLE</type><header>11</header><content>11</content><date>31.12.2015.11.11</date></Event></Events>
+<Events><Event><type>SINGLE</type><header>11</header><content>11</content><date>31.12.2015.11.11</date></Event><Event><type>SINGLE</type><header>11</header><content>11</content><date>31.12.2015.11.11</date></Event><Event><type>SINGLE</type><header>11</header><content>11</content><date>31.12.2015.11.11</date></Event><Event><type>SINGLE</type><header>11</header><content>11</content><date>31.12.2015.11.11</date></Event><Event><type>SINGLE</type><header>11</header><content>11</content><date>31.12.2015.11.11</date></Event><Event><type>SINGLE</type><header>11</header><content>11</content><date>31.12.2015.11.11</date></Event><Event><type>SINGLE</type><header>11</header><content>11</content><date>31.12.2015.11.11</date></Event><Event><type>SINGLE</type><header>11</header><content>11</content><date>31.12.2015.11.11</date></Event><Event><type>SINGLE</type><header>11</header><content>11</content><date>31.12.2015.11.11</date></Event><Event><type>SINGLE</type><header>11</header><content>11</content><date>31.12.2015.11.11</date></Event><Event><type>SINGLE</type><header>123</header><content>1232</content><date>31.12.2015.12.12</date></Event></Events>
 </Subject>
 <Subject>
 <subjectName>Физика</subjectName>
@@ -15,7 +15,7 @@
 <housing>2</housing>
 <dayOfWeek>Monday</dayOfWeek>
 <numberInTable>2</numberInTable>
-<Events><Event><type>SINGLE</type><header>Задачи на сегодня</header><content>3) Тесты 4) В списек ивентов показывать контент</content><date>30.12.2015.10.10</date></Event></Events>
+<Events/>
 </Subject>
 <Subject>
 <subjectName>ЭВМ</subjectName>
@@ -69,7 +69,7 @@
 <housing>1</housing>
 <dayOfWeek>Wednesday</dayOfWeek>
 <numberInTable>2</numberInTable>
-<Events/>
+<Events><Event><type>SINGLE</type><header>11</header><content>11</content><date>31.12.2015.12.12</date></Event><Event><type>SINGLE</type><header>ера</header><content>ара</content><date>31.12.2015.12.12</date></Event></Events>
 </Subject>
 <Subject>
 <subjectName>Экология</subjectName>
@@ -78,7 +78,7 @@
 <housing>1</housing>
 <dayOfWeek>Wednesday</dayOfWeek>
 <numberInTable>3</numberInTable>
-<Events/>
+<Events><Event><type>SINGLE</type><header>11</header><content>11</content><date>31.12.2015.1.1</date></Event></Events>
 </Subject>
 <Subject>
 <subjectName>Случайные процессы</subjectName>

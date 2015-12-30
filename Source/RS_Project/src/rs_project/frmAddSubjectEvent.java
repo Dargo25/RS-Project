@@ -12,7 +12,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
 import MainClasses.*;
-import java.io.IOException;
 import java.text.ParseException;
 import java.time.LocalDate;
 import java.util.Date;
@@ -27,9 +26,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.WindowEvent;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.TransformerException;
-import org.xml.sax.SAXException;
 
 /**
  *
@@ -86,7 +82,7 @@ public class frmAddSubjectEvent extends Application {
 
                     userSubject.getEventList().add(userEvent);
 
-                    WriteEventToXML(userSubject);
+                    DataProcessor.WriteEventToXML(userSubject);
 
                     EventTimer.CreateTimer(userSubject, userEvent);
 
@@ -106,20 +102,6 @@ public class frmAddSubjectEvent extends Application {
         try {
             start(ps);
         } catch (Exception ex) {
-            Logger.getLogger(frmAddSubjectEvent.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-    private void WriteEventToXML(Subject userSubject) {
-        try {
-            WorkWithXML.AddNewEventToXML(userSubject);
-        } catch (SAXException ex) {
-            Logger.getLogger(frmAddSubjectEvent.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(frmAddSubjectEvent.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ParserConfigurationException ex) {
-            Logger.getLogger(frmAddSubjectEvent.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (TransformerException ex) {
             Logger.getLogger(frmAddSubjectEvent.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

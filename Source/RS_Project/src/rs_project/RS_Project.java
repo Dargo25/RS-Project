@@ -50,9 +50,9 @@ public class RS_Project extends Application {
         primaryStage.setTitle("RS Project");
         currentStage = primaryStage;
         subjectList.clear();
-        WorkWithXML.scanXml(subjectList);
+        subjectList = DataProcessor.ScanXML(subjectList);
         
-        ChooseCurrentDay();
+        currentDay = DataProcessor.ChooseCurrentDay(isFirstLaunch, currentDay);
         
         currentSbj = LoadSubjects(subjectList, currentDay);
         ArrayList<Label> sbjName = WriteSubjectsToLabels(currentSbj);
@@ -73,7 +73,7 @@ public class RS_Project extends Application {
             @Override
             public void handle(ActionEvent event) {
                 grid.getChildren().clear();
-                currentDay = GetNextDay(currentDay);
+                currentDay = DataProcessor.GetNextDay(currentDay);
                 start(primaryStage);
             }
         });
@@ -84,7 +84,7 @@ public class RS_Project extends Application {
             public void handle(ActionEvent event) {
                 grid.getChildren().clear();
 
-                currentDay = GetPreviousDay(currentDay);
+                currentDay = DataProcessor.GetPreviousDay(currentDay);
                 start(primaryStage);
 
             }
@@ -196,7 +196,7 @@ public class RS_Project extends Application {
             if (count < imgEvent.size()) {
                 if (imgEvent.get(count).GetNumber() == i) {
                     grid.add(imgEvent.get(count).GetImg(), 4, i + 1);
-                    addImageClick(imgEvent.get(i));
+                    addImageClick(imgEvent.get(count));
                     count++;
                 }
             }
@@ -218,69 +218,6 @@ public class RS_Project extends Application {
         return grid;
     }
 
-    private DaysOfWeek GetNextDay(DaysOfWeek cDay) {
-        if (cDay == DaysOfWeek.MONDAY) {
-            return DaysOfWeek.TUESDAY;
-        }
-
-        if (cDay == DaysOfWeek.TUESDAY) {
-            return DaysOfWeek.WEDNESDAY;
-        }
-
-        if (cDay == DaysOfWeek.WEDNESDAY) {
-            return DaysOfWeek.THURSDAY;
-        }
-
-        if (cDay == DaysOfWeek.THURSDAY) {
-            return DaysOfWeek.FRIDAY;
-        }
-
-        if (cDay == DaysOfWeek.FRIDAY) {
-            return DaysOfWeek.SATURDAY;
-        }
-
-        if (cDay == DaysOfWeek.SATURDAY) {
-            return DaysOfWeek.MONDAY;
-        }
-        return null;
-    }
-
-    private DaysOfWeek GetPreviousDay(DaysOfWeek cDay) {
-        if (cDay == DaysOfWeek.TUESDAY) {
-            return DaysOfWeek.MONDAY;
-        }
-
-        if (cDay == DaysOfWeek.WEDNESDAY) {
-            return DaysOfWeek.TUESDAY;
-        }
-
-        if (cDay == DaysOfWeek.THURSDAY) {
-            return DaysOfWeek.WEDNESDAY;
-        }
-
-        if (cDay == DaysOfWeek.FRIDAY) {
-            return DaysOfWeek.THURSDAY;
-        }
-
-        if (cDay == DaysOfWeek.SATURDAY) {
-            return DaysOfWeek.FRIDAY;
-        }
-
-        if (cDay == DaysOfWeek.MONDAY) {
-            return DaysOfWeek.SATURDAY;
-        }
-        return null;
-    }
-
-    private Subject GetSubjectByNumber(int number) {
-        for (Subject sbj : currentSbj) {
-            if (sbj.getNumberInTable() == number) {
-                return sbj;
-            }
-        }
-        return null;
-    }
-
     private int ParseLabel(Label lbl) {
         String sbjInfo = lbl.getText();
         String substring = sbjInfo.substring(0, 1);
@@ -293,7 +230,7 @@ public class RS_Project extends Application {
             @Override
             public void handle(Event event) {
                 int number = ParseLabel(node);
-                frmAddSbj.SetSubject(GetSubjectByNumber(number));
+                frmAddSbj.SetSubject(DataProcessor.GetSubjectByNumber(currentSbj, number));
                 try {
                     frmAddSbj.start(new Stage());
                 } catch (Exception ex) {
@@ -329,17 +266,5 @@ public class RS_Project extends Application {
                 }
             }
         });
-    }
-    
-    private void ChooseCurrentDay() {
-        if (isFirstLaunch) {
-            Date today = new Date();
-            DaysOfWeek[] d = DaysOfWeek.values();
-            int dayNumber = today.getDay();
-            if (dayNumber == 0) {
-                dayNumber = 6;
-            }
-            currentDay = d[dayNumber - 1];
-        }
     }
 }

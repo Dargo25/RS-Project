@@ -49,8 +49,6 @@ public class frmEventInfo extends Application {
 
         GridPane grid = CreateGrid(lblInfo);
         ScrollPane sp = new ScrollPane(grid);
-        //grid.add(sp, 5, 5);
-        //GridPane grid = new GridPane();
         Scene scene = new Scene(grid, 300, 250);
         primaryStage.setScene(scene);
         primaryStage.show();
@@ -99,7 +97,7 @@ public class frmEventInfo extends Application {
     }
 
     private Label CreateLabels(SubjectEvent events) {
-        Label tempLbl = new Label(GetLabelText(events));
+        Label tempLbl = new Label(DataProcessor.GetLabelText(events));
         tempLbl.setFont(Font.font("Tahoma", FontWeight.NORMAL, 15));
         return tempLbl;
     }
@@ -112,62 +110,5 @@ public class frmEventInfo extends Application {
         grid.add(btnPrevious, 1, 2);
 
         return grid;
-    }
-
-    private String GetLabelText(SubjectEvent sbjEv) {
-        String strLabel = "";
-
-        strLabel = sbjEv.getHeader();
-        String strDate = sbjEv.getTime().getDate().toString();
-
-        String strDay = strDate.substring(8, 20);
-
-        strDate = strDate.substring(4, 10);
-        String strMonth = strDate.substring(0, 3);
-        String currentMonth;
-        switch (strMonth) {
-            case "Dec":
-                currentMonth = "Декабрь";
-                break;
-            case "Jan":
-                currentMonth = "Январь";
-                break;
-            case "Feb":
-                currentMonth = "Февраль";
-                break;
-            case "Mar":
-                currentMonth = "Март";
-                break;
-            case "Apr":
-                currentMonth = "Апрель";
-                break;
-            case "May":
-                currentMonth = "Май";
-                break;
-            case "Jun":
-                currentMonth = "Июнь";
-                break;
-            case "Jul":
-                currentMonth = "Июль";
-                break;
-            case "Aug":
-                currentMonth = "Август";
-                break;
-            case "Sep":
-                currentMonth = "Сентябрь";
-                break;
-            case "Oct":
-                currentMonth = "Октябрь";
-                break;
-            case "Nov":
-                currentMonth = "Ноябрь";
-                break;
-            default:
-                currentMonth = "-1";
-                break;
-        }
-        strDate = currentMonth;
-        strLabel = strLabel + "\n\t" + strDate + " " + strDay;
-        return strLabel;
     }
 }
