@@ -29,7 +29,7 @@ import org.w3c.dom.Element;
  */
 public final class WorkWithXML {
 
-    private static File xmlFile = new File("src/MainClasses/Subjects.xml");
+    private static final File XML_FILE = new File("src/MainClasses/Subjects.xml");
 
     public static void scanXml(ArrayList<Subject> subjectList) {
         try {
@@ -273,7 +273,7 @@ public final class WorkWithXML {
     private static Document GetDocument() throws SAXException, IOException, ParserConfigurationException, TransformerException {
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = dbf.newDocumentBuilder();
-        Document document = builder.parse(xmlFile);
+        Document document = builder.parse(XML_FILE);
         return document;
     }
 
@@ -282,7 +282,7 @@ public final class WorkWithXML {
                 .newInstance();
         Transformer transformer = transformerFactory.newTransformer();
         DOMSource source = new DOMSource(document);
-        StreamResult result = new StreamResult(xmlFile);
+        StreamResult result = new StreamResult(XML_FILE);
         transformer.transform(source, result);
     }
 }

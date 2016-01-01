@@ -13,7 +13,7 @@ import javafx.scene.control.Button;
 import javafx.stage.Stage;
 import MainClasses.*;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Timer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.event.Event;
@@ -24,6 +24,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import javafx.stage.WindowEvent;
 
 /**
  *
@@ -93,6 +94,16 @@ public class RS_Project extends Application {
             EventTimer.StartTimersOnProgramLoad(subjectList);
             isFirstLaunch = false;
         }
+        
+        primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+
+            @Override
+            public void handle(WindowEvent event) {
+                for (Timer timer : EventTimer.getTimerList()) {
+                    timer.cancel();
+                }
+            }
+        });
     }
 
     /**

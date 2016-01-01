@@ -26,6 +26,7 @@ import rs_project.RS_Project;
  */
 public final class EventTimer {
     static RS_Project parent;
+    private static ArrayList<Timer> timerList = new ArrayList<>();
     
     public static void CreateTimer(Subject subject, SubjectEvent event) {
         Timer timer = new Timer();
@@ -51,6 +52,7 @@ public final class EventTimer {
                 });      
             }
         }, event.getTime().getDate());
+        getTimerList().add(timer);
     }
     
     private static void WatchEvent(SubjectEvent event){
@@ -74,5 +76,12 @@ public final class EventTimer {
     
     public static void SetParent(RS_Project prn){
         parent = prn;
+    }
+
+    /**
+     * @return the timerList
+     */
+    public static ArrayList<Timer> getTimerList() {
+        return timerList;
     }
 }
